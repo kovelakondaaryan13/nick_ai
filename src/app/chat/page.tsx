@@ -1,15 +1,16 @@
 "use client";
 
 import { Suspense, useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { X, Settings, ChefHat, Mic, Send, Camera, Volume2, VolumeX } from "lucide-react";
+import { X, Settings, ChefHat, Mic, Send, Camera, Volume2, VolumeX, Play } from "lucide-react";
 import { useTTS } from "@/hooks/useTTS";
 
 interface Message {
   id: string;
   role: "user" | "assistant";
   text: string;
+  recipeId?: string | null;
 }
 
 const SUGGESTED_PROMPTS = [
@@ -29,6 +30,7 @@ export default function ChatPage() {
 }
 
 function ChatInner() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const prefilled = searchParams.get("prompt") || "";
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -84,7 +86,12 @@ function ChatInner() {
       const data = await res.json();
       const reply = data.reply || "Sorry, I didn't catch that. Try again?";
 
-      const assistantMsg: Message = { id: crypto.randomUUID(), role: "assistant", text: reply };
+      const assistantMsg: Message = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        text: reply,
+        recipeId: data.recipeId || null,
+      };
       setMessages((prev) => [...prev, assistantMsg]);
 
       if (voiceOn) {
@@ -195,6 +202,16 @@ function ChatInner() {
                     </span>
                   ))}
                 </div>
+
+                {msg.recipeId && (
+                  <button
+                    onClick={() => router.push(`/recipes/${msg.recipeId}`)}
+                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#2563EB] py-3 text-sm font-semibold text-white active:bg-[#1d4ed8]"
+                  >
+                    <Play className="h-4 w-4 fill-current" />
+                    Start Cooking
+                  </button>
+                )}
               </div>
             </div>
           );
