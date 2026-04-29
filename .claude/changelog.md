@@ -3,6 +3,11 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **DEMO MODE — hardcoded everything for live pitch:**
+  1. `/api/chat` — bypasses OpenRouter entirely. Keyword detection: eggs/bread/bachelor/1 pan → fried egg sandwich response, chicken → garlic butter chicken, pasta → cacio e pepe, fallback → "quick or all out?" Streams via AI SDK v6 UI message format.
+  2. `/api/scan` — bypasses GPT-4o. Returns hardcoded ingredients (eggs, cheese, tomatoes, spinach, butter, milk). Scan page "Looks good" now skips review and redirects straight to chat with "I have eggs, cheese, tomatoes, spinach, butter and milk — what can I make?"
+  3. `manifest.json` — replaced with clean minimal PWA manifest, theme_color #2563EB, favicon.svg icon.
+  4. `/api/tts` — ElevenLabs failures now silently return `{ fallback: "browser" }` with 200 (no error toast, no 502). Removed daily char limit tracking for demo simplicity.
 - **Updated ELEVENLABS_VOICE_ID** to custom Nick clone voice `7FZFrYtZRrKLHTp9VJka` (was Rachel default `21m00Tcm4TlvDq8ikWAM`).
 - **3 critical runtime fixes:**
   1. `/api/chat` returning 400 — Zod schema expected `content: string` but AI SDK v6 `useChat` sends `content` as array of parts. Replaced strict Zod validation with flexible parsing that handles both string and array content formats.

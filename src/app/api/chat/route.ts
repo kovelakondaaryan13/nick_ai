@@ -1,18 +1,25 @@
 import { createClient } from "@/lib/supabase/server";
-import { embed } from "@/lib/openai";
-import { searchMemory, searchRecipes, upsertMemory } from "@/lib/qdrant";
-import { buildSystemPrompt } from "@/lib/nick-prompt";
-import { createOpenAI } from "@ai-sdk/openai";
-
-const openrouter = createOpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
-});
-import { streamText, tool } from "ai";
-import { z } from "zod";
-import { randomUUID } from "crypto";
 
 export const maxDuration = 30;
+
+const DEMO_RESPONSES: Record<string, string> = {
+  eggs: "Perfect — classic bachelor move. Here's what I'd make: a crispy fried egg sandwich with melted cheese. 8 minutes, one pan, no cleanup. Want me to walk you through it?",
+  bread: "Perfect — classic bachelor move. Here's what I'd make: a crispy fried egg sandwich with melted cheese. 8 minutes, one pan, no cleanup. Want me to walk you through it?",
+  bachelor: "Perfect — classic bachelor move. Here's what I'd make: a crispy fried egg sandwich with melted cheese. 8 minutes, one pan, no cleanup. Want me to walk you through it?",
+  "1 pan": "Perfect — classic bachelor move. Here's what I'd make: a crispy fried egg sandwich with melted cheese. 8 minutes, one pan, no cleanup. Want me to walk you through it?",
+  chicken: "Garlic butter chicken, 15 minutes, one pan. Trust me on this one.",
+  pasta: "Cacio e pepe — 3 ingredients, 12 minutes, tastes like a Roman restaurant.",
+};
+
+const DEFAULT_RESPONSE = "Nice — I've got the perfect recipe for that. Want something quick or are we going all out?";
+
+function getDemoResponse(message: string): string {
+  const lower = message.toLowerCase();
+  for (const [keyword, response] of Object.entries(DEMO_RESPONSES)) {
+    if (lower.includes(keyword)) return response;
+  }
+  return DEFAULT_RESPONSE;
+}
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -44,148 +51,22 @@ export async function POST(request: Request) {
         ? lastMsg.content.map((p: { text?: string }) => p.text || "").join("")
         : "";
 
-  // Fetch profile
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("display_name, taste_fingerprint, dietary_flags, allergens, kitchen_tools")
-    .eq("user_id", user.id)
-    .single();
+  const demoText = getDemoResponse(lastUserMessage);
 
-  // Embed user message and retrieve memories
-  let userVector: number[];
-  try {
-    userVector = await embed(lastUserMessage);
-  } catch {
-    return Response.json({ error: "Nick's catching his breath. Try again in a sec." }, { status: 429 });
-  }
-
-  let memories: { content: string; memory_type: string; created_at: string }[] = [];
-  try {
-    const memoryResults = await searchMemory(userVector, user.id, 5);
-    memories = memoryResults.map((r) => r.payload as { content: string; memory_type: string; created_at: string });
-  } catch {}
-
-  // Get recipe candidates — Qdrant first, fallback to Postgres random
-  let recipeCandidates: { id: string; title: string; time_minutes: number; kcal: number; cuisine: string; tags: string[] }[] = [];
-  try {
-    const recipeResults = await searchRecipes(userVector, 5);
-    const candidateIds = recipeResults.map((r) => r.id as string);
-    if (candidateIds.length > 0) {
-      const { data } = await supabase
-        .from("recipes")
-        .select("id, title, time_minutes, kcal, cuisine, tags, hero_image_url")
-        .in("id", candidateIds);
-      recipeCandidates = data || [];
-    }
-  } catch {
-    const { data } = await supabase
-      .from("recipes")
-      .select("id, title, time_minutes, kcal, cuisine, tags, hero_image_url")
-      .limit(5);
-    recipeCandidates = data || [];
-  }
-
-  // Check fridge state
-  const { data: fridgeScan } = await supabase
-    .from("fridge_scans")
-    .select("ingredients")
-    .eq("user_id", user.id)
-    .order("scanned_at", { ascending: false })
-    .limit(1)
-    .single();
-
-  const systemPrompt = buildSystemPrompt({
-    profile,
-    memories,
-    fridgeState: fridgeScan,
-  });
-
-  const result = streamText({
-    model: openrouter("google/gemma-3-27b-it"),
-    system: systemPrompt,
-    messages,
-    tools: {
-      suggest_recipes: tool({
-        description: "Suggest recipes to the user based on their preferences and request. Always use this tool when the user asks for food ideas or what to cook.",
-        inputSchema: z.object({
-          intent: z.string().describe("What the user is looking for"),
-          count: z.number().optional().describe("Number of recipes to suggest (max 3, default 3)"),
-        }),
-        execute: async ({ intent, count }) => {
-          const intentVector = await embed(intent);
-
-          const filter: Record<string, unknown> = {};
-          if (profile?.dietary_flags?.vegetarian) {
-            filter.must = [{ key: "vegetarian", match: { value: true } }];
-          }
-
-          const results = await searchRecipes(intentVector, count || 3, Object.keys(filter).length > 0 ? filter : undefined);
-          const ids = results.map((r) => r.id as string);
-
-          if (ids.length === 0) return { recipes: [] };
-
-          const { data: recipes } = await supabase
-            .from("recipes")
-            .select("id, title, time_minutes, kcal, hero_image_url, tags")
-            .in("id", ids);
-
-          return { recipes: recipes || [] };
-        },
-      }),
-      search_recipes: tool({
-        description: "Search for specific recipes by query",
-        inputSchema: z.object({
-          query: z.string().describe("Search query"),
-        }),
-        execute: async ({ query }) => {
-          const queryVector = await embed(query);
-          const results = await searchRecipes(queryVector, 5);
-          const ids = results.map((r) => r.id as string);
-
-          if (ids.length === 0) return { recipes: [] };
-
-          const { data: recipes } = await supabase
-            .from("recipes")
-            .select("id, title, time_minutes, kcal, hero_image_url, tags")
-            .in("id", ids);
-
-          return { recipes: recipes || [] };
-        },
-      }),
-      request_substitution: tool({
-        description: "Suggest ingredient substitutions for a recipe",
-        inputSchema: z.object({
-          ingredient: z.string().describe("The ingredient to substitute"),
-          recipe_title: z.string().describe("The recipe name"),
-        }),
-        execute: async ({ ingredient, recipe_title }) => {
-          return {
-            suggestion: `For ${ingredient} in ${recipe_title}, you could try a common substitute. I'll explain in my response.`,
-          };
-        },
-      }),
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    start(controller) {
+      // AI SDK v6 UI message stream format
+      controller.enqueue(encoder.encode(`0:${JSON.stringify(demoText)}\n`));
+      controller.enqueue(encoder.encode(`d:{"finishReason":"stop","usage":{"promptTokens":0,"completionTokens":0}}\n`));
+      controller.close();
     },
-    prepareStep: () => ({}),
   });
 
-  // Save messages to DB in background (don't block the stream)
-  (async () => {
-    try {
-      await supabase.from("chat_messages").insert({
-        user_id: user.id,
-        role: "user",
-        content: lastUserMessage,
-      });
-
-      // Embed user message to memory
-      await upsertMemory(randomUUID(), userVector, {
-        user_id: user.id,
-        memory_type: "chat",
-        content: lastUserMessage,
-        created_at: new Date().toISOString(),
-      });
-    } catch {}
-  })();
-
-  return result.toUIMessageStreamResponse();
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "X-Vercel-AI-Data-Stream": "v1",
+    },
+  });
 }

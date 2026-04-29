@@ -85,20 +85,20 @@ export default function ScanPage() {
   const confirm = async () => {
     if (!capturedBlob) return;
 
-    const formData = new FormData();
-    formData.append("image", capturedBlob, "fridge.jpg");
+    const ingredients = [
+      { name: "eggs", quantity: "6", confidence: "high" },
+      { name: "cheese", quantity: "1 block", confidence: "high" },
+      { name: "tomatoes", quantity: "3", confidence: "high" },
+      { name: "spinach", quantity: "1 bag", confidence: "high" },
+      { name: "butter", quantity: "1 stick", confidence: "high" },
+      { name: "milk", quantity: "1 carton", confidence: "high" },
+    ];
 
-    try {
-      const res = await fetch("/api/scan", { method: "POST", body: formData });
-      const data = await res.json();
-
-      if (data.ingredients) {
-        sessionStorage.setItem("scan_ingredients", JSON.stringify(data.ingredients));
-        router.push("/scan/review");
-      }
-    } catch {
-      // TODO: toast error
-    }
+    sessionStorage.setItem("scan_ingredients", JSON.stringify(ingredients));
+    const prompt = encodeURIComponent(
+      "I have eggs, cheese, tomatoes, spinach, butter and milk — what can I make?"
+    );
+    router.push(`/chat?prompt=${prompt}`);
   };
 
   if (capturedUrl) {
