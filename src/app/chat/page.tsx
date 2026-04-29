@@ -10,7 +10,7 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   text: string;
-  recipeId?: string | null;
+  showCookButton?: boolean;
 }
 
 const SUGGESTED_PROMPTS = [
@@ -90,7 +90,7 @@ function ChatInner() {
         id: crypto.randomUUID(),
         role: "assistant",
         text: reply,
-        recipeId: data.recipeId || null,
+        showCookButton: data.showCookButton || false,
       };
       setMessages((prev) => [...prev, assistantMsg]);
 
@@ -203,9 +203,22 @@ function ChatInner() {
                   ))}
                 </div>
 
-                {msg.recipeId && (
+                {msg.showCookButton && (
                   <button
-                    onClick={() => router.push(`/recipes/${msg.recipeId}`)}
+                    onClick={async () => {
+                      try {
+                        const res = await fetch("/api/recipes/random");
+                        const data = await res.json();
+                        const recipe = data.recipes?.[0];
+                        if (recipe) {
+                          router.push(`/recipes/${recipe.id}`);
+                        } else {
+                          router.push("/");
+                        }
+                      } catch {
+                        router.push("/");
+                      }
+                    }}
                     className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#2563EB] py-3 text-sm font-semibold text-white active:bg-[#1d4ed8]"
                   >
                     <Play className="h-4 w-4 fill-current" />

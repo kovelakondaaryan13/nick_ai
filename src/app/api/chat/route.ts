@@ -86,17 +86,5 @@ export async function POST(request: Request) {
 
   const { reply, showCookButton } = getResponse(message);
 
-  let recipeId: string | null = null;
-  if (showCookButton) {
-    try {
-      const { data } = await supabase
-        .from("recipes")
-        .select("id")
-        .limit(1)
-        .single();
-      recipeId = data?.id || null;
-    } catch {}
-  }
-
-  return NextResponse.json({ reply, recipeId });
+  return NextResponse.json({ reply, showCookButton });
 }
