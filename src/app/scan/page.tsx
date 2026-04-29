@@ -105,7 +105,7 @@ export default function ScanPage() {
     return (
       <div className="flex h-dvh flex-col bg-black">
         <div className="flex items-center justify-between px-4 py-3">
-          <button onClick={() => router.push("/")} className="text-white">
+          <button onClick={() => router.push("/")} className="text-white" aria-label="Close">
             <X className="h-6 w-6" />
           </button>
           <span className="text-sm font-medium text-white">Review photo</span>
@@ -137,7 +137,7 @@ export default function ScanPage() {
   return (
     <div className="flex h-dvh flex-col bg-black">
       <div className="flex items-center justify-between px-4 py-3">
-        <button onClick={() => router.push("/")} className="text-white">
+        <button onClick={() => router.push("/")} className="text-white" aria-label="Close">
           <X className="h-6 w-6" />
         </button>
         <span className="text-sm font-medium text-white">Scan your fridge</span>
@@ -182,6 +182,7 @@ export default function ScanPage() {
         <button
           onClick={() => fileInputRef.current?.click()}
           className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white"
+          aria-label="Upload photo"
         >
           <Upload className="h-5 w-5" />
         </button>
@@ -190,6 +191,7 @@ export default function ScanPage() {
           <button
             onClick={capture}
             className="flex h-18 w-18 items-center justify-center rounded-full border-4 border-white bg-transparent"
+            aria-label="Take photo"
           >
             <div className="h-14 w-14 rounded-full bg-white" />
           </button>
@@ -199,6 +201,7 @@ export default function ScanPage() {
           <button
             onClick={() => setFacingMode((f) => (f === "environment" ? "user" : "environment"))}
             className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white"
+            aria-label="Switch camera"
           >
             <SwitchCamera className="h-5 w-5" />
           </button>

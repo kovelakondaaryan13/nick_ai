@@ -10,7 +10,7 @@ export async function GET() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ recipes: [] });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { data: profile } = await supabase

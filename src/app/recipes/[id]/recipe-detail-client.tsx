@@ -100,14 +100,14 @@ export default function RecipeDetailClient({
       <div className="relative h-[240px]">
         <img src={recipe.hero_image_url} alt={recipe.title} className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-        <button onClick={() => router.back()} className="absolute left-4 top-12 rounded-full bg-white/90 p-2">
+        <button onClick={() => router.back()} className="absolute left-4 top-12 rounded-full bg-white/90 p-2" aria-label="Go back">
           <ChevronLeft className="h-5 w-5" />
         </button>
         <div className="absolute right-4 top-12 flex gap-2">
-          <button onClick={toggleSave} className="rounded-full bg-white/90 p-2">
+          <button onClick={toggleSave} className="rounded-full bg-white/90 p-2" aria-label={saved ? "Unsave recipe" : "Save recipe"}>
             <Heart className={`h-5 w-5 ${saved ? "fill-red-500 text-red-500" : ""}`} />
           </button>
-          <button onClick={handleShare} className="rounded-full bg-white/90 p-2">
+          <button onClick={handleShare} className="rounded-full bg-white/90 p-2" aria-label="Share recipe">
             <Share2 className="h-5 w-5" />
           </button>
         </div>
@@ -228,7 +228,7 @@ export default function RecipeDetailClient({
       {/* Bottom CTA */}
       <div className="fixed bottom-0 left-1/2 z-50 w-full max-w-[480px] -translate-x-1/2 border-t border-[#ECECEC] bg-white p-4">
         <div className="flex gap-3">
-          <button onClick={toggleSave} className="rounded-lg border border-[#ECECEC] p-3">
+          <button onClick={toggleSave} className="rounded-lg border border-[#ECECEC] p-3" aria-label={saved ? "Unsave recipe" : "Save recipe"}>
             <Bookmark className={`h-5 w-5 ${saved ? "fill-[#1A1A1A]" : ""}`} />
           </button>
           <Link

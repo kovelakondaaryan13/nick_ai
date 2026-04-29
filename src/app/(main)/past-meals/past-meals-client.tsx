@@ -68,7 +68,7 @@ export default function PastMealsClient({ meals, stats }: Props) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-bold">Past Meals</h1>
-        <button onClick={() => setShowFilter(!showFilter)} className="p-2">
+        <button onClick={() => setShowFilter(!showFilter)} className="p-2" aria-label="Filter meals">
           <Filter className="h-5 w-5 text-[#6B6B6B]" />
         </button>
       </div>

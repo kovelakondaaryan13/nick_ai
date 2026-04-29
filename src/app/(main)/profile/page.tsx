@@ -45,7 +45,7 @@ export default async function ProfilePage() {
     <div className="px-4 pt-12 pb-4">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-bold">Profile</h1>
-        <Link href="/profile/settings" className="p-2">
+        <Link href="/profile/settings" className="p-2" aria-label="Settings">
           <Settings className="h-5 w-5 text-[#6B6B6B]" />
         </Link>
       </div>

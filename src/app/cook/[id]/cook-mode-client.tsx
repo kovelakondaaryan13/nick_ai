@@ -338,20 +338,21 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
     <div className="flex min-h-dvh flex-col bg-white">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-12">
-        <button onClick={() => setShowExitConfirm(true)}>
+        <button onClick={() => setShowExitConfirm(true)} aria-label="Exit cook mode">
           <X className="h-6 w-6 text-[#6B6B6B]" />
         </button>
         <div className="flex items-center gap-2">
           {isSpeaking && (
             <span className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
           )}
-          <button onClick={() => { setVoiceOn(!voiceOn); if (voiceOn) tts.stop(); }}>
+          <button onClick={() => { setVoiceOn(!voiceOn); if (voiceOn) tts.stop(); }} aria-label={voiceOn ? "Mute voice" : "Unmute voice"}>
             {voiceOn ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5 text-[#A0A0A0]" />}
           </button>
           {hasSpeechRecognition && (
             <button
               onClick={() => setVoiceNavOn(!voiceNavOn)}
               className="relative"
+              aria-label={voiceNavOn ? "Disable voice navigation" : "Enable voice navigation"}
             >
               {voiceNavOn ? (
                 <Mic className={`h-5 w-5 ${isListening ? "text-red-500 animate-pulse" : isSpeaking ? "text-[#A0A0A0]" : ""}`} />
@@ -370,7 +371,7 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
       {showVoiceNavTip && (
         <div className="mx-4 mt-2 rounded-lg bg-[#1A1A1A] px-4 py-2.5 text-center text-xs text-white">
           Try saying &quot;next&quot; or &quot;repeat&quot; to navigate hands-free
-          <button onClick={() => setShowVoiceNavTip(false)} className="ml-2 text-white/60">✕</button>
+          <button onClick={() => setShowVoiceNavTip(false)} className="ml-2 text-white/60" aria-label="Dismiss tip">✕</button>
         </div>
       )}
 
@@ -417,10 +418,10 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
 
       {/* Bottom nav */}
       <div className="flex items-center gap-3 border-t border-[#ECECEC] p-4">
-        <button onClick={goBack} disabled={currentStep === 0} className="rounded-lg border border-[#ECECEC] p-3 disabled:opacity-30">
+        <button onClick={goBack} disabled={currentStep === 0} className="rounded-lg border border-[#ECECEC] p-3 disabled:opacity-30" aria-label="Previous step">
           <ChevronLeft className="h-5 w-5" />
         </button>
-        <button onClick={repeatStep} className="rounded-lg border border-[#ECECEC] p-3">
+        <button onClick={repeatStep} className="rounded-lg border border-[#ECECEC] p-3" aria-label="Repeat step">
           <RotateCcw className="h-4 w-4" />
         </button>
         <button onClick={goNext} className="flex-1 rounded-lg bg-[#1A1A1A] py-3.5 text-sm font-semibold text-white">
@@ -430,9 +431,9 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
 
       {/* Exit confirm modal */}
       {showExitConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
           <div className="w-full max-w-sm rounded-2xl bg-white p-6 text-center">
-            <h3 className="text-lg font-bold">Exit cook mode?</h3>
+            <h3 id="exit-dialog-title" className="text-lg font-bold">Exit cook mode?</h3>
             <p className="mt-2 text-sm text-[#6B6B6B]">Your progress will be saved.</p>
             <div className="mt-6 flex gap-3">
               <button onClick={() => setShowExitConfirm(false)} className="flex-1 rounded-lg border border-[#ECECEC] py-3 text-sm font-medium">

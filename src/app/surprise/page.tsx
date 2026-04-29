@@ -102,7 +102,7 @@ export default function SurprisePage() {
     <div className="flex h-dvh flex-col bg-[#FAFAF7]">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3">
-        <button onClick={() => router.push("/")} className="p-1">
+        <button onClick={() => router.push("/")} className="p-1" aria-label="Close">
           <X className="h-5 w-5" />
         </button>
         <span className="text-sm font-semibold">Surprise me</span>

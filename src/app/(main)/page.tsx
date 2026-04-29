@@ -36,7 +36,7 @@ export default async function HomePage() {
     <div className="px-4 pt-12">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-bold">AI Chef</h1>
-        <Link href="/notifications" className="relative p-2">
+        <Link href="/notifications" className="relative p-2" aria-label="Notifications">
           <Bell className="h-5 w-5 text-[#6B6B6B]" />
           {(unreadCount ?? 0) > 0 && (
             <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-red-500" />

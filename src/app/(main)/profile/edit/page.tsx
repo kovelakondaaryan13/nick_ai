@@ -28,7 +28,7 @@ export default function EditProfilePage() {
   return (
     <div className="px-4 pt-12">
       <div className="flex items-center gap-3">
-        <button onClick={() => router.back()} className="p-1">
+        <button onClick={() => router.back()} className="p-1" aria-label="Go back">
           <ArrowLeft className="h-5 w-5" />
         </button>
         <h1 className="text-lg font-bold">Edit Profile</h1>

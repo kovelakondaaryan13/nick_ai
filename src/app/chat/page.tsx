@@ -133,7 +133,7 @@ function ChatInner() {
     <div className="flex h-dvh flex-col bg-[#FAFAF7]">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#ECECEC] bg-white px-4 py-3">
-        <Link href="/" className="rounded-full p-1">
+        <Link href="/" className="rounded-full p-1" aria-label="Close chat">
           <X className="h-5 w-5" />
         </Link>
         <div className="text-center">
@@ -144,10 +144,10 @@ function ChatInner() {
           <p className="text-[10px] text-[#A0A0A0]">online · learns from you</p>
         </div>
         <div className="flex items-center gap-1">
-          <button onClick={() => { setVoiceOn(!voiceOn); if (voiceOn) tts.stop(); }} className="rounded-full p-1">
+          <button onClick={() => { setVoiceOn(!voiceOn); if (voiceOn) tts.stop(); }} className="rounded-full p-1" aria-label={voiceOn ? "Mute voice" : "Unmute voice"}>
             {voiceOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4 text-[#A0A0A0]" />}
           </button>
-          <Link href="/profile" className="rounded-full p-1">
+          <Link href="/profile" className="rounded-full p-1" aria-label="Settings">
             <Settings className="h-4 w-4 text-[#6B6B6B]" />
           </Link>
         </div>
@@ -266,6 +266,7 @@ function ChatInner() {
             onPointerDown={startRecording}
             onPointerUp={stopRecording}
             onPointerLeave={stopRecording}
+            aria-label={isRecording ? "Recording... release to stop" : "Hold to record voice"}
             className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full ${
               isRecording ? "bg-red-500 text-white" : "bg-[#F0F0F0] text-[#6B6B6B]"
             }`}
@@ -276,6 +277,7 @@ function ChatInner() {
           <Link
             href="/scan"
             className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#F0F0F0] text-[#6B6B6B]"
+            aria-label="Scan fridge"
           >
             <Camera className="h-4 w-4" />
           </Link>
@@ -293,6 +295,7 @@ function ChatInner() {
             type="submit"
             disabled={!input.trim() || isLoading}
             className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#1A1A1A] text-white disabled:opacity-40"
+            aria-label="Send message"
           >
             <Send className="h-4 w-4" />
           </button>

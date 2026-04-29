@@ -49,7 +49,7 @@ export default function ScanReviewPage() {
     <div className="flex h-dvh flex-col bg-[#FAFAF7]">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#ECECEC] bg-white px-4 py-3">
-        <button onClick={() => router.push("/")} className="p-1">
+        <button onClick={() => router.push("/")} className="p-1" aria-label="Close">
           <X className="h-5 w-5" />
         </button>
         <span className="text-sm font-semibold">Your ingredients</span>
@@ -100,6 +100,7 @@ export default function ScanReviewPage() {
             onClick={addIngredient}
             disabled={!newItem.trim()}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1A1A1A] text-white disabled:opacity-40"
+            aria-label="Add ingredient"
           >
             <Plus className="h-4 w-4" />
           </button>

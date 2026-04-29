@@ -43,7 +43,7 @@ export default function PrivacyPage() {
   return (
     <div className="px-4 pt-12 pb-4">
       <div className="flex items-center gap-3">
-        <button onClick={() => router.back()} className="p-1">
+        <button onClick={() => router.back()} className="p-1" aria-label="Go back">
           <ArrowLeft className="h-5 w-5" />
         </button>
         <h1 className="text-lg font-bold">Privacy & Data</h1>
@@ -75,9 +75,9 @@ export default function PrivacyPage() {
       </div>
 
       {showDeleteConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8" role="dialog" aria-modal="true" aria-labelledby="delete-dialog-title">
           <div className="w-full max-w-sm rounded-2xl bg-white p-6">
-            <h2 className="text-base font-bold">Delete your account?</h2>
+            <h2 id="delete-dialog-title" className="text-base font-bold">Delete your account?</h2>
             <p className="mt-2 text-sm text-[#6B6B6B]">
               This will permanently delete your profile, chat history, cook sessions, and all saved data. This cannot be undone.
             </p>

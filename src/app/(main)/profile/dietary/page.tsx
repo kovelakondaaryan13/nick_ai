@@ -54,7 +54,7 @@ export default function DietaryPage() {
   return (
     <div className="px-4 pt-12 pb-4">
       <div className="flex items-center gap-3">
-        <button onClick={() => router.back()} className="p-1">
+        <button onClick={() => router.back()} className="p-1" aria-label="Go back">
           <ArrowLeft className="h-5 w-5" />
         </button>
         <h1 className="text-lg font-bold">Dietary Needs</h1>
@@ -97,6 +97,7 @@ export default function DietaryPage() {
             <button
               key={a}
               onClick={() => toggleAllergen(a)}
+              aria-pressed={allergens.includes(a)}
               className={`rounded-full border px-3.5 py-1.5 text-xs font-medium capitalize ${
                 allergens.includes(a)
                   ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"

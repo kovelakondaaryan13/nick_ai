@@ -109,7 +109,7 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
             {recipeCount} recipe{recipeCount !== 1 ? "s" : ""} · {items.length} items
           </p>
         </div>
-        <button onClick={syncToClipboard} className="p-2">
+        <button onClick={syncToClipboard} className="p-2" aria-label="Copy list to clipboard">
           <Copy className="h-5 w-5 text-[#6B6B6B]" />
         </button>
       </div>
@@ -184,6 +184,7 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
                 <button
                   onClick={() => addItem(group.category)}
                   className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1A1A1A] text-white"
+                  aria-label={`Add item to ${group.category}`}
                 >
                   <Plus className="h-3 w-3" />
                 </button>

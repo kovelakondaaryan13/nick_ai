@@ -37,7 +37,7 @@ export default function CookDonePage() {
 
       <div className="mt-6 flex gap-2">
         {[1, 2, 3, 4, 5].map((n) => (
-          <button key={n} onClick={() => setRating(n)}>
+          <button key={n} onClick={() => setRating(n)} aria-label={`Rate ${n} star${n > 1 ? "s" : ""}`}>
             <Star
               className={`h-10 w-10 ${n <= rating ? "fill-yellow-400 text-yellow-400" : "text-[#D0D0D0]"}`}
             />

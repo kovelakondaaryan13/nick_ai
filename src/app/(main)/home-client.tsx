@@ -39,7 +39,7 @@ export default function HomeClient() {
             <span className="text-xs font-medium text-[#6B6B6B]">
               You&apos;re offline · showing cached recommendations
             </span>
-            <button onClick={check} className="ml-auto rounded-full border border-[#D0D0D0] p-1.5">
+            <button onClick={check} className="ml-auto rounded-full border border-[#D0D0D0] p-1.5" aria-label="Retry connection">
               <RefreshCw className="h-3 w-3 text-[#6B6B6B]" />
             </button>
           </div>

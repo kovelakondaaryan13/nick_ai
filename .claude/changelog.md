@@ -3,6 +3,15 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **8 medium-priority fixes (accessibility, API consistency, loading states, security polish):**
+  1. Added `aria-label` to ~36 icon-only buttons across 18 files (back, close, filter, settings, save, share, voice toggle, mic, send, camera, copy, add, star rating).
+  2. Added `aria-pressed` to allergen toggle buttons in dietary page.
+  3. Added `role="dialog"` + `aria-modal="true"` + `aria-labelledby` to privacy delete modal and cook mode exit modal.
+  4. `/api/recipes/hero` — returns 401 instead of `{ recipes: [] }` when no user session.
+  5. `/api/cron/daily-suggestions` — replaced simple string comparison with `crypto.timingSafeEqual` for bearer token auth.
+  6. Added `loading.tsx` skeleton screens to: browse, recipe detail, past meals, shopping list, notifications, profile.
+  7. Added SVG favicon (`public/favicon.svg`) + `<link rel="icon">` in layout.
+  - 40 routes, build clean.
 - **12 critical/high/config fixes applied pre-deploy:**
   1. `/api/transcribe` — added Supabase auth (401) + 10MB file size limit (413) + try/catch on Whisper call (502).
   2. `/api/tts` — added Supabase auth (401), removed in-memory char counter, added per-user daily limit (50k chars/day) via new `tts_usage` table with upsert on `(user_id, usage_date)`. Returns 429 with browser fallback when limit hit.
