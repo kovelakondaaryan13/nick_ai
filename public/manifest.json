@@ -4,8 +4,8 @@
   "description": "Cook with your favorite chef.",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#0F0F0F",
-  "background_color": "#0F0F0F",
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
   "icons": [
     {
       "src": "/icons/icon-192.svg",

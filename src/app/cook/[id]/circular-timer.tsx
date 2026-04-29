@@ -58,13 +58,13 @@ const CircularTimer = forwardRef<CircularTimerHandle, CircularTimerProps>(
     return (
       <button onClick={() => setPaused(!paused)} className="relative h-32 w-32">
         <svg className="h-32 w-32 -rotate-90" viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r="54" fill="none" stroke="#2A2A2A" strokeWidth="6" />
+          <circle cx="60" cy="60" r="54" fill="none" stroke="#E5E7EB" strokeWidth="6" />
           <circle
             cx="60"
             cy="60"
             r="54"
             fill="none"
-            stroke={remaining === 0 ? "#4CAF50" : "#FF6B35"}
+            stroke={remaining === 0 ? "#4CAF50" : "#2563EB"}
             strokeWidth="6"
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -73,10 +73,10 @@ const CircularTimer = forwardRef<CircularTimerHandle, CircularTimerProps>(
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-2xl font-bold tabular-nums text-[#F5F0E8]">
+          <span className="text-2xl font-bold tabular-nums text-[#111111]">
             {mins}:{secs.toString().padStart(2, "0")}
           </span>
-          <span className="text-xs text-[#9A9A8A]">
+          <span className="text-xs text-[#6B7280]">
             {remaining === 0 ? "done!" : paused ? "paused" : "tap to pause"}
           </span>
         </div>

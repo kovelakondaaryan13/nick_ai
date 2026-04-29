@@ -41,24 +41,24 @@ export default function PrivacyPage() {
   };
 
   return (
-    <div className="px-4 pt-12 pb-4 bg-[#0F0F0F] min-h-screen">
+    <div className="px-4 pt-12 pb-4 bg-white min-h-screen">
       <div className="flex items-center gap-3">
         <button onClick={() => router.back()} className="p-1" aria-label="Go back">
-          <ArrowLeft className="h-5 w-5 text-[#F5F0E8]" />
+          <ArrowLeft className="h-5 w-5 text-[#111111]" />
         </button>
-        <h1 className="text-lg font-bold text-[#F5F0E8] font-[family-name:var(--font-playfair)]">Privacy & Data</h1>
+        <h1 className="text-lg font-bold text-[#111111] font-[family-name:var(--font-playfair)]">Privacy & Data</h1>
       </div>
 
       <div className="mt-6 space-y-3">
         <button
           onClick={exportData}
           disabled={exporting}
-          className="flex w-full items-center gap-3 rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] px-4 py-3.5"
+          className="flex w-full items-center gap-3 rounded-xl border border-[#E5E7EB] bg-[#F8F9FA] px-4 py-3.5"
         >
-          <Download className="h-5 w-5 text-[#9A9A8A]" />
+          <Download className="h-5 w-5 text-[#6B7280]" />
           <div className="text-left">
-            <p className="text-sm font-medium text-[#F5F0E8]">{exporting ? "Exporting..." : "Export my data"}</p>
-            <p className="text-xs text-[#9A9A8A]">Download all your data as JSON</p>
+            <p className="text-sm font-medium text-[#111111]">{exporting ? "Exporting..." : "Export my data"}</p>
+            <p className="text-xs text-[#6B7280]">Download all your data as JSON</p>
           </div>
         </button>
 
@@ -76,15 +76,15 @@ export default function PrivacyPage() {
 
       {showDeleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8" role="dialog" aria-modal="true" aria-labelledby="delete-dialog-title">
-          <div className="w-full max-w-sm rounded-2xl bg-[#1A1A1A] p-6">
-            <h2 id="delete-dialog-title" className="text-base font-bold text-[#F5F0E8]">Delete your account?</h2>
-            <p className="mt-2 text-sm text-[#9A9A8A]">
+          <div className="w-full max-w-sm rounded-2xl bg-[#F8F9FA] p-6">
+            <h2 id="delete-dialog-title" className="text-base font-bold text-[#111111]">Delete your account?</h2>
+            <p className="mt-2 text-sm text-[#6B7280]">
               This will permanently delete your profile, chat history, cook sessions, and all saved data. This cannot be undone.
             </p>
             <div className="mt-4 flex gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 rounded-full border border-[#2A2A2A] py-2.5 text-sm font-medium text-[#F5F0E8]"
+                className="flex-1 rounded-full border border-[#E5E7EB] py-2.5 text-sm font-medium text-[#111111]"
               >
                 Cancel
               </button>

@@ -315,12 +315,12 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
 
   if (!started) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-[#0F0F0F] px-8 text-center">
-        <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#F5F0E8]">{recipe.title}</h1>
-        <p className="mt-2 text-sm text-[#9A9A8A]">{totalSteps} steps · tap to start</p>
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-white px-8 text-center">
+        <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#111111]">{recipe.title}</h1>
+        <p className="mt-2 text-sm text-[#6B7280]">{totalSteps} steps · tap to start</p>
         <button
           onClick={handleStart}
-          className="mt-8 rounded-full bg-[#FF6B35] px-10 py-4 text-sm font-bold text-white"
+          className="mt-8 rounded-full bg-[#2563EB] px-10 py-4 text-sm font-bold text-white"
         >
           Start cooking
         </button>
@@ -329,18 +329,18 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[#0F0F0F]">
+    <div className="flex min-h-dvh flex-col bg-white">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-12">
         <button onClick={() => setShowExitConfirm(true)} aria-label="Exit cook mode">
-          <X className="h-6 w-6 text-[#9A9A8A]" />
+          <X className="h-6 w-6 text-[#6B7280]" />
         </button>
         <div className="flex items-center gap-2">
           {isSpeaking && (
             <span className="h-2 w-2 animate-pulse rounded-full bg-[#4CAF50]" />
           )}
           <button onClick={() => { setVoiceOn(!voiceOn); if (voiceOn) tts.stop(); }} aria-label={voiceOn ? "Mute voice" : "Unmute voice"}>
-            {voiceOn ? <Volume2 className="h-5 w-5 text-[#F5F0E8]" /> : <VolumeX className="h-5 w-5 text-[#9A9A8A]" />}
+            {voiceOn ? <Volume2 className="h-5 w-5 text-[#111111]" /> : <VolumeX className="h-5 w-5 text-[#6B7280]" />}
           </button>
           {hasSpeechRecognition && (
             <button
@@ -349,9 +349,9 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
               aria-label={voiceNavOn ? "Disable voice navigation" : "Enable voice navigation"}
             >
               {voiceNavOn ? (
-                <Mic className={`h-5 w-5 ${isListening ? "text-red-500 animate-pulse" : isSpeaking ? "text-[#9A9A8A]" : "text-[#F5F0E8]"}`} />
+                <Mic className={`h-5 w-5 ${isListening ? "text-red-500 animate-pulse" : isSpeaking ? "text-[#6B7280]" : "text-[#111111]"}`} />
               ) : (
-                <MicOff className="h-5 w-5 text-[#9A9A8A]" />
+                <MicOff className="h-5 w-5 text-[#6B7280]" />
               )}
               {isListening && (
                 <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-red-500 animate-ping" />
@@ -363,7 +363,7 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
 
       {/* Voice nav tooltip */}
       {showVoiceNavTip && (
-        <div className="mx-4 mt-2 rounded-lg bg-[#FF6B35] px-4 py-2.5 text-center text-xs text-white">
+        <div className="mx-4 mt-2 rounded-lg bg-[#2563EB] px-4 py-2.5 text-center text-xs text-white">
           Try saying &quot;next&quot; or &quot;repeat&quot; to navigate hands-free
           <button onClick={() => setShowVoiceNavTip(false)} className="ml-2 text-white/60" aria-label="Dismiss tip">✕</button>
         </div>
@@ -375,7 +375,7 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
           <div
             key={i}
             className={`h-1 flex-1 rounded-full ${
-              i <= currentStep ? "bg-[#FF6B35]" : "bg-[#2A2A2A]"
+              i <= currentStep ? "bg-[#2563EB]" : "bg-[#E5E7EB]"
             }`}
           />
         ))}
@@ -383,10 +383,10 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
 
       {/* Step content */}
       <div className="flex-1 px-4 pt-6">
-        <p className="text-xs font-medium uppercase tracking-wider text-[#9A9A8A]">
+        <p className="text-xs font-medium uppercase tracking-wider text-[#6B7280]">
           Step {currentStep + 1} of {totalSteps} · {recipe.title}
         </p>
-        <h2 className="mt-2 font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#F5F0E8]">{step.title}</h2>
+        <h2 className="mt-2 font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#111111]">{step.title}</h2>
 
         {(step.image_url || recipe.hero_image_url) && (
           <img
@@ -396,7 +396,7 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
           />
         )}
 
-        <p className="mt-4 text-lg leading-relaxed text-[#9A9A8A]">{step.body}</p>
+        <p className="mt-4 text-lg leading-relaxed text-[#6B7280]">{step.body}</p>
 
         {timerSeconds && timerSeconds > 0 && (
           <div className="mt-6 flex justify-center">
@@ -411,31 +411,31 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
       </div>
 
       {/* Bottom nav */}
-      <div className="flex items-center gap-3 border-t border-[#2A2A2A] bg-[#1A1A1A] p-4">
-        <button onClick={goBack} disabled={currentStep === 0} className="rounded-lg border border-[#2A2A2A] p-3 disabled:opacity-30" aria-label="Previous step">
-          <ChevronLeft className="h-5 w-5 text-[#F5F0E8]" />
+      <div className="flex items-center gap-3 border-t border-[#E5E7EB] bg-[#F8F9FA] p-4">
+        <button onClick={goBack} disabled={currentStep === 0} className="rounded-lg border border-[#E5E7EB] p-3 disabled:opacity-30" aria-label="Previous step">
+          <ChevronLeft className="h-5 w-5 text-[#111111]" />
         </button>
-        <button onClick={repeatStep} className="rounded-lg border border-[#2A2A2A] p-3" aria-label="Repeat step">
-          <RotateCcw className="h-4 w-4 text-[#F5F0E8]" />
+        <button onClick={repeatStep} className="rounded-lg border border-[#E5E7EB] p-3" aria-label="Repeat step">
+          <RotateCcw className="h-4 w-4 text-[#111111]" />
         </button>
-        <button onClick={goNext} className="flex-1 rounded-lg bg-[#FF6B35] py-3.5 text-sm font-semibold text-white">
+        <button onClick={goNext} className="flex-1 rounded-lg bg-[#2563EB] py-3.5 text-sm font-semibold text-white">
           {isLast ? "Finish" : "Next step"}
         </button>
       </div>
 
       {/* Exit confirm modal */}
       {showExitConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-8" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
-          <div className="w-full max-w-sm rounded-2xl bg-[#1A1A1A] p-6 text-center">
-            <h3 id="exit-dialog-title" className="font-[family-name:var(--font-playfair)] text-lg font-bold text-[#F5F0E8]">Exit cook mode?</h3>
-            <p className="mt-2 text-sm text-[#9A9A8A]">Your progress will be saved.</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
+          <div className="w-full max-w-sm rounded-2xl bg-[#F8F9FA] p-6 text-center">
+            <h3 id="exit-dialog-title" className="font-[family-name:var(--font-playfair)] text-lg font-bold text-[#111111]">Exit cook mode?</h3>
+            <p className="mt-2 text-sm text-[#6B7280]">Your progress will be saved.</p>
             <div className="mt-6 flex gap-3">
-              <button onClick={() => setShowExitConfirm(false)} className="flex-1 rounded-lg border border-[#2A2A2A] py-3 text-sm font-medium text-[#F5F0E8]">
+              <button onClick={() => setShowExitConfirm(false)} className="flex-1 rounded-lg border border-[#E5E7EB] py-3 text-sm font-medium text-[#111111]">
                 Stay
               </button>
               <button
                 onClick={() => { tts.stop(); stopRecognition(); router.push(`/recipes/${recipe.id}`); }}
-                className="flex-1 rounded-lg bg-[#FF6B35] py-3 text-sm font-semibold text-white"
+                className="flex-1 rounded-lg bg-[#2563EB] py-3 text-sm font-semibold text-white"
               >
                 Exit
               </button>

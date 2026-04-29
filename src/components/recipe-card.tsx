@@ -22,11 +22,11 @@ export function HeroRecipeCard({ recipe }: { recipe: Recipe }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         <div className="absolute bottom-4 left-4 right-4">
           <h3 className="font-[family-name:var(--font-playfair)] text-base font-semibold text-white">{recipe.title}</h3>
-          <p className="mt-0.5 text-xs text-[#F5F0E8]/70">
+          <p className="mt-0.5 text-xs text-white/70">
             {recipe.time_minutes} min · {recipe.kcal} kcal
           </p>
         </div>
-        <div className="absolute right-3 top-3 rounded-full bg-[#FF6B35] px-2.5 py-0.5 text-[10px] font-semibold text-white">
+        <div className="absolute right-3 top-3 rounded-full bg-[#2563EB] px-2.5 py-0.5 text-[10px] font-semibold text-white">
           {recipe.difficulty}
         </div>
       </div>
@@ -38,7 +38,7 @@ export function RecipeRow({ recipe }: { recipe: Recipe }) {
   return (
     <Link
       href={`/recipes/${recipe.id}`}
-      className="flex items-center gap-3 rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-3"
+      className="flex items-center gap-3 rounded-xl border border-[#E5E7EB] bg-[#F8F9FA] p-3"
     >
       <img
         src={recipe.hero_image_url}
@@ -46,8 +46,8 @@ export function RecipeRow({ recipe }: { recipe: Recipe }) {
         className="h-16 w-16 rounded-lg object-cover"
       />
       <div className="flex-1">
-        <h3 className="font-[family-name:var(--font-playfair)] text-sm font-semibold text-[#F5F0E8]">{recipe.title}</h3>
-        <p className="mt-0.5 text-xs text-[#9A9A8A]">
+        <h3 className="font-[family-name:var(--font-playfair)] text-sm font-semibold text-[#111111]">{recipe.title}</h3>
+        <p className="mt-0.5 text-xs text-[#6B7280]">
           {recipe.time_minutes} min · {recipe.difficulty}
         </p>
       </div>

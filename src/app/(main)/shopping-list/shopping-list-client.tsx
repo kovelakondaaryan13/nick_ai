@@ -89,11 +89,11 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
   if (items.length === 0) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-[#2A2A2A]">
-          <ShoppingCart className="h-6 w-6 text-[#9A9A8A]" />
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-[#E5E7EB]">
+          <ShoppingCart className="h-6 w-6 text-[#6B7280]" />
         </div>
-        <h2 className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-[#F5F0E8]">Your list is empty</h2>
-        <p className="mt-1 text-sm text-[#9A9A8A]">
+        <h2 className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-[#111111]">Your list is empty</h2>
+        <p className="mt-1 text-sm text-[#6B7280]">
           Add ingredients from any recipe.
         </p>
       </div>
@@ -104,18 +104,18 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
     <div className="px-4 pt-12 pb-24">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-[family-name:var(--font-playfair)] text-lg font-bold text-[#F5F0E8]">Shopping List</h1>
-          <p className="text-xs text-[#9A9A8A]">
+          <h1 className="font-[family-name:var(--font-playfair)] text-lg font-bold text-[#111111]">Shopping List</h1>
+          <p className="text-xs text-[#6B7280]">
             {recipeCount} recipe{recipeCount !== 1 ? "s" : ""} · {items.length} items
           </p>
         </div>
         <button onClick={syncToClipboard} className="p-2" aria-label="Copy list to clipboard">
-          <Copy className="h-5 w-5 text-[#9A9A8A]" />
+          <Copy className="h-5 w-5 text-[#6B7280]" />
         </button>
       </div>
 
       {copied && (
-        <div className="mt-2 rounded-lg bg-[#242424] px-3 py-2 text-xs text-[#F5F0E8]">
+        <div className="mt-2 rounded-lg bg-[#F3F4F6] px-3 py-2 text-xs text-[#111111]">
           Copied to clipboard. Paste into your reminders app.
         </div>
       )}
@@ -128,8 +128,8 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
             onClick={() => setFilter(f)}
             className={`flex-shrink-0 rounded-full border px-3 py-1 text-xs font-medium ${
               filter === f
-                ? "border-[#FF6B35] bg-[#FF6B35] text-white"
-                : "border-[#2A2A2A] text-[#F5F0E8]"
+                ? "border-[#2563EB] bg-[#2563EB] text-white"
+                : "border-[#E5E7EB] text-[#111111]"
             }`}
           >
             {f}
@@ -141,7 +141,7 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
       <div className="mt-4 space-y-5">
         {grouped.map((group) => (
           <div key={group.category}>
-            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#9A9A8A]">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#6B7280]">
               {CATEGORY_ICONS[group.category]} {group.category}
             </p>
             <div className="space-y-1">
@@ -150,21 +150,21 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
                   key={item.id}
                   onClick={() => toggleCheck(item.id)}
                   className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left ${
-                    item.checked ? "bg-[#242424]" : "bg-[#1A1A1A]"
+                    item.checked ? "bg-[#F3F4F6]" : "bg-[#F8F9FA]"
                   }`}
                 >
                   <div
                     className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border ${
-                      item.checked ? "border-[#FF6B35] bg-[#FF6B35]" : "border-[#2A2A2A]"
+                      item.checked ? "border-[#2563EB] bg-[#2563EB]" : "border-[#E5E7EB]"
                     }`}
                   >
                     {item.checked && <span className="text-xs text-white">✓</span>}
                   </div>
-                  <span className={`flex-1 text-sm ${item.checked ? "text-[#9A9A8A] line-through" : "text-[#F5F0E8]"}`}>
+                  <span className={`flex-1 text-sm ${item.checked ? "text-[#6B7280] line-through" : "text-[#111111]"}`}>
                     {item.name}
                   </span>
                   {item.quantity && (
-                    <span className="text-xs text-[#9A9A8A]">
+                    <span className="text-xs text-[#6B7280]">
                       {item.quantity}{item.unit ? ` ${item.unit}` : ""}
                     </span>
                   )}
@@ -179,11 +179,11 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
                   onChange={(e) => setNewItems((prev) => ({ ...prev, [group.category]: e.target.value }))}
                   onKeyDown={(e) => e.key === "Enter" && addItem(group.category)}
                   placeholder="Add item..."
-                  className="h-8 flex-1 rounded-lg border border-dashed border-[#2A2A2A] bg-transparent px-3 text-xs text-[#F5F0E8] outline-none placeholder:text-[#9A9A8A] focus:border-[#FF6B35]"
+                  className="h-8 flex-1 rounded-lg border border-dashed border-[#E5E7EB] bg-transparent px-3 text-xs text-[#111111] outline-none placeholder:text-[#6B7280] focus:border-[#2563EB]"
                 />
                 <button
                   onClick={() => addItem(group.category)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF6B35] text-white"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#2563EB] text-white"
                   aria-label={`Add item to ${group.category}`}
                 >
                   <Plus className="h-3 w-3" />

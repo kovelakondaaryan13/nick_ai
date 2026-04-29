@@ -52,17 +52,17 @@ export default function DietaryPage() {
   };
 
   return (
-    <div className="px-4 pt-12 pb-4 bg-[#0F0F0F] min-h-screen">
+    <div className="px-4 pt-12 pb-4 bg-white min-h-screen">
       <div className="flex items-center gap-3">
         <button onClick={() => router.back()} className="p-1" aria-label="Go back">
-          <ArrowLeft className="h-5 w-5 text-[#F5F0E8]" />
+          <ArrowLeft className="h-5 w-5 text-[#111111]" />
         </button>
-        <h1 className="text-lg font-bold text-[#F5F0E8] font-[family-name:var(--font-playfair)]">Dietary Needs</h1>
+        <h1 className="text-lg font-bold text-[#111111] font-[family-name:var(--font-playfair)]">Dietary Needs</h1>
       </div>
 
       <div className="mt-6 space-y-4">
-        <label className="flex items-center justify-between rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] px-4 py-3">
-          <span className="text-sm font-medium text-[#F5F0E8]">Vegetarian</span>
+        <label className="flex items-center justify-between rounded-xl border border-[#E5E7EB] bg-[#F8F9FA] px-4 py-3">
+          <span className="text-sm font-medium text-[#111111]">Vegetarian</span>
           <input
             type="checkbox"
             checked={vegetarian}
@@ -70,12 +70,12 @@ export default function DietaryPage() {
               setVegetarian(e.target.checked);
               save(e.target.checked, glutenFree, allergens);
             }}
-            className="h-5 w-5 accent-[#FF6B35]"
+            className="h-5 w-5 accent-[#2563EB]"
           />
         </label>
 
-        <label className="flex items-center justify-between rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] px-4 py-3">
-          <span className="text-sm font-medium text-[#F5F0E8]">Gluten-free</span>
+        <label className="flex items-center justify-between rounded-xl border border-[#E5E7EB] bg-[#F8F9FA] px-4 py-3">
+          <span className="text-sm font-medium text-[#111111]">Gluten-free</span>
           <input
             type="checkbox"
             checked={glutenFree}
@@ -83,13 +83,13 @@ export default function DietaryPage() {
               setGlutenFree(e.target.checked);
               save(vegetarian, e.target.checked, allergens);
             }}
-            className="h-5 w-5 accent-[#FF6B35]"
+            className="h-5 w-5 accent-[#2563EB]"
           />
         </label>
       </div>
 
       <div className="mt-6">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#9A9A8A]">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#6B7280]">
           Allergens
         </p>
         <div className="flex flex-wrap gap-2">
@@ -100,8 +100,8 @@ export default function DietaryPage() {
               aria-pressed={allergens.includes(a)}
               className={`rounded-full border px-3.5 py-1.5 text-xs font-medium capitalize ${
                 allergens.includes(a)
-                  ? "border-[#FF6B35] bg-[#FF6B35] text-white"
-                  : "border-[#2A2A2A] text-[#F5F0E8]"
+                  ? "border-[#2563EB] bg-[#2563EB] text-white"
+                  : "border-[#E5E7EB] text-[#111111]"
               }`}
             >
               {a}

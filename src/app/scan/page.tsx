@@ -125,7 +125,7 @@ export default function ScanPage() {
           </button>
           <button
             onClick={confirm}
-            className="flex-1 rounded-full bg-[#FF6B35] py-3 text-sm font-semibold text-white"
+            className="flex-1 rounded-full bg-[#2563EB] py-3 text-sm font-semibold text-white"
           >
             Looks good
           </button>
@@ -153,7 +153,7 @@ export default function ScanPage() {
             </p>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-2 rounded-full bg-[#FF6B35] px-6 py-3 text-sm font-semibold text-white"
+              className="flex items-center gap-2 rounded-full bg-[#2563EB] px-6 py-3 text-sm font-semibold text-white"
             >
               <Upload className="h-4 w-4" />
               Upload photo

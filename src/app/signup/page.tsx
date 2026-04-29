@@ -36,10 +36,10 @@ export default function SignUp() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col justify-center px-6 bg-[#0F0F0F]">
+    <div className="flex min-h-dvh flex-col justify-center px-6 bg-white">
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#F5F0E8]">Create your account</h1>
-        <p className="mt-1 text-sm text-[#9A9A8A]">Start cooking with Nick.</p>
+        <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#111111]">Create your account</h1>
+        <p className="mt-1 text-sm text-[#6B7280]">Start cooking with Nick.</p>
       </div>
 
       <form onSubmit={handleSignUp} className="flex flex-col gap-4">
@@ -49,7 +49,7 @@ export default function SignUp() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="rounded-lg border border-[#2A2A2A] bg-[#1A1A1A] px-4 py-3 text-sm text-[#F5F0E8] placeholder:text-[#9A9A8A] outline-none focus:border-[#FF6B35]"
+          className="rounded-lg border border-[#E5E7EB] bg-[#F8F9FA] px-4 py-3 text-sm text-[#111111] placeholder:text-[#6B7280] outline-none focus:border-[#2563EB]"
         />
         <input
           type="password"
@@ -58,20 +58,20 @@ export default function SignUp() {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={6}
-          className="rounded-lg border border-[#2A2A2A] bg-[#1A1A1A] px-4 py-3 text-sm text-[#F5F0E8] placeholder:text-[#9A9A8A] outline-none focus:border-[#FF6B35]"
+          className="rounded-lg border border-[#E5E7EB] bg-[#F8F9FA] px-4 py-3 text-sm text-[#111111] placeholder:text-[#6B7280] outline-none focus:border-[#2563EB]"
         />
         <button
           type="submit"
           disabled={loading}
-          className="rounded-lg bg-[#FF6B35] py-3 text-sm font-semibold text-white disabled:opacity-50"
+          className="rounded-lg bg-[#2563EB] py-3 text-sm font-semibold text-white disabled:opacity-50"
         >
           {loading ? "Creating account..." : "Sign up"}
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[#9A9A8A]">
+      <p className="mt-6 text-center text-sm text-[#6B7280]">
         Already have an account?{" "}
-        <Link href="/signin" className="font-medium text-[#FF6B35] underline">
+        <Link href="/signin" className="font-medium text-[#2563EB] underline">
           Sign in
         </Link>
       </p>

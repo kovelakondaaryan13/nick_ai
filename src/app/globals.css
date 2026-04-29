@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
-/* ── Dark theme colour tokens ── */
+/* ── Light theme colour tokens ── */
 :root {
-  --bg-primary: #0F0F0F;
-  --bg-card: #1A1A1A;
-  --bg-elevated: #242424;
-  --text-primary: #F5F0E8;
-  --text-secondary: #9A9A8A;
-  --accent: #FF6B35;
+  --bg-primary: #FFFFFF;
+  --bg-card: #F8F9FA;
+  --bg-elevated: #F3F4F6;
+  --text-primary: #111111;
+  --text-secondary: #6B7280;
+  --accent: #2563EB;
   --success: #4CAF50;
-  --border: #2A2A2A;
+  --border: #E5E7EB;
 }
 
 /* Hide scrollbars on horizontal scrollers */

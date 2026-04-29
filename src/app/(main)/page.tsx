@@ -37,20 +37,20 @@ export default async function HomePage() {
       <div className="flex items-center justify-between">
         <h1 className="font-[family-name:var(--font-playfair)] text-xl font-bold">Nick AI</h1>
         <Link href="/notifications" className="relative p-2" aria-label="Notifications">
-          <Bell className="h-5 w-5 text-[#F5F0E8]/50" />
+          <Bell className="h-5 w-5 text-[#6B7280]" />
           {(unreadCount ?? 0) > 0 && (
-            <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[#FF6B35]" />
+            <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[#2563EB]" />
           )}
         </Link>
       </div>
 
-      <p className="mt-4 text-xs font-medium tracking-wider text-[#9A9A8A]">
+      <p className="mt-4 text-xs font-medium tracking-wider text-[#6B7280]">
         {getGreeting()} · pick tonight&apos;s plate
       </p>
 
       <Link
         href="/scan"
-        className="mt-4 flex items-center gap-3 rounded-2xl bg-[#FF6B35] p-4"
+        className="mt-4 flex items-center gap-3 rounded-2xl bg-[#2563EB] p-4"
       >
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
           <span className="text-lg">📷</span>
@@ -62,22 +62,22 @@ export default async function HomePage() {
       </Link>
 
       <div className="mt-6">
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#9A9A8A]">For You</h2>
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#6B7280]">For You</h2>
         <HomeClient />
       </div>
 
       <div className="mt-8 pb-4">
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#9A9A8A]">Browse</h2>
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#6B7280]">Browse</h2>
         <div className="grid grid-cols-2 gap-3">
           {CATEGORIES.map((cat) => (
             <Link
               key={cat.name}
               href={cat.href}
-              className="flex flex-col gap-1 rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-4 active:border-[#FF6B35]"
+              className="flex flex-col gap-1 rounded-2xl border border-[#E5E7EB] bg-[#F8F9FA] p-4 active:border-[#2563EB]"
             >
               <span className="text-2xl">{cat.icon}</span>
-              <span className="text-sm font-semibold text-[#F5F0E8]">{cat.name}</span>
-              <span className="text-xs text-[#9A9A8A]">{cat.subtitle}</span>
+              <span className="text-sm font-semibold text-[#111111]">{cat.name}</span>
+              <span className="text-xs text-[#6B7280]">{cat.subtitle}</span>
             </Link>
           ))}
         </div>

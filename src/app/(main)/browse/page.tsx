@@ -42,10 +42,10 @@ export default async function BrowsePage({
     return (
       <div className="px-4 pt-12">
         <div className="flex items-center gap-3">
-          <Link href="/browse" className="text-[#9A9A8A]">←</Link>
-          <h1 className="text-lg font-bold capitalize text-[#F5F0E8]">{category === "quick" ? "Quick (<30 min)" : category}</h1>
+          <Link href="/browse" className="text-[#6B7280]">←</Link>
+          <h1 className="text-lg font-bold capitalize text-[#111111]">{category === "quick" ? "Quick (<30 min)" : category}</h1>
         </div>
-        <p className="mt-1 text-xs text-[#9A9A8A]">{recipes?.length || 0} recipes</p>
+        <p className="mt-1 text-xs text-[#6B7280]">{recipes?.length || 0} recipes</p>
         <div className="mt-4 flex flex-col gap-3">
           {recipes?.map((recipe) => (
             <RecipeRow key={recipe.id} recipe={recipe} />
@@ -73,22 +73,22 @@ export default async function BrowsePage({
   return (
     <div className="px-4 pt-12">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold text-[#F5F0E8]">Browse</h1>
+        <h1 className="text-lg font-bold text-[#111111]">Browse</h1>
         <Link href="/browse?category=search" className="p-2">
-          <Search className="h-5 w-5 text-[#9A9A8A]" />
+          <Search className="h-5 w-5 text-[#6B7280]" />
         </Link>
       </div>
-      <p className="mt-1 text-xs text-[#9A9A8A]">All categories & filters</p>
+      <p className="mt-1 text-xs text-[#6B7280]">All categories & filters</p>
 
       <div className="mt-6 grid grid-cols-2 gap-3">
         {CATEGORIES.map((cat) => (
           <Link
             key={cat.value}
             href={`/browse?category=${cat.value}`}
-            className="flex flex-col gap-1 rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-4"
+            className="flex flex-col gap-1 rounded-2xl border border-[#E5E7EB] bg-[#F8F9FA] p-4"
           >
-            <span className="text-sm font-semibold text-[#F5F0E8]">{cat.name}</span>
-            <span className="text-xs text-[#9A9A8A]">{counts[cat.value] || 0} recipes</span>
+            <span className="text-sm font-semibold text-[#111111]">{cat.name}</span>
+            <span className="text-xs text-[#6B7280]">{counts[cat.value] || 0} recipes</span>
           </Link>
         ))}
       </div>

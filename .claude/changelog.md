@@ -3,6 +3,24 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **Reverted to white/blue theme** — full visual redesign replacing dark theme across 35+ files:
+  - Colour system: bg #FFFFFF, cards #F8F9FA, elevated #F3F4F6, text #111111, secondary #6B7280, accent #2563EB (blue), border #E5E7EB, success #4CAF50 (green kept).
+  - Foundation: globals.css CSS vars updated, layout.tsx bg-white + Toaster theme="light", themeColor #FFFFFF.
+  - Components: bottom-nav (white bar, blue FAB/active), recipe-card (light cards, blue badge), pwa-install-prompt (white card, blue install), taste-editor (blue selected chips), sign-out-button (light borders).
+  - Major pages: home, chat (white bg, blue user bubbles), cook mode (white bg, blue buttons/progress), recipe detail (white bg, from-white gradient, blue tabs/checkboxes), surprise (white bg, blue dice/buttons).
+  - Secondary: profile (+ 6 sub-pages), past meals, shopping list, notifications, browse, cook done — all white/blue.
+  - Auth: signin + signup (white bg, blue CTAs/links, light inputs).
+  - Onboarding: welcome (blue avatar), taste, dietary (blue toggles), tools — all blue chips/CTAs.
+  - Scan: kept black bg for camera, only changed accent #FF6B35→#2563EB. Review page fully light.
+  - Loading skeletons (6): #F3F4F6 blocks, #E5E7EB borders.
+  - manifest.json: theme_color and background_color → #FFFFFF.
+  - Settings page: "Dark" → "Light".
+  - Playfair Display headings kept.
+- **Fixed "For You" hero carousel showing empty:**
+  - `/api/recipes/hero` — added safety-net fallback with console.error logging when primary query returns empty.
+  - Created `/api/recipes/random` — new endpoint returning 5 recent recipes as client-side fallback.
+  - `home-client.tsx` — fetch now falls back to `/api/recipes/random` if hero returns empty or fails.
+  - 41 routes (new /api/recipes/random), build clean.
 - **Switched chat to OpenRouter (Gemma 3 27B):**
   - `/api/chat/route.ts` — replaced `@ai-sdk/openai` GPT-4o with OpenRouter `google/gemma-3-27b-it` (free, no limits) via `createOpenAI` with custom baseURL.
   - Added `OPENROUTER_API_KEY` to `.env` and `.env.example`.

@@ -37,16 +37,16 @@ export default async function PastMealsPage() {
   if (meals.length === 0) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-[#2A2A2A]">
-          <Clock className="h-6 w-6 text-[#9A9A8A]" />
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-[#E5E7EB]">
+          <Clock className="h-6 w-6 text-[#6B7280]" />
         </div>
-        <h2 className="text-lg font-semibold text-[#F5F0E8]">No meals yet</h2>
-        <p className="mt-1 text-sm text-[#9A9A8A]">
+        <h2 className="text-lg font-semibold text-[#111111]">No meals yet</h2>
+        <p className="mt-1 text-sm text-[#6B7280]">
           Cook your first dish and it&apos;ll show up here. Nick learns from every plate.
         </p>
         <Link
           href="/chat"
-          className="mt-6 rounded-full bg-[#FF6B35] px-6 py-3 text-sm font-semibold text-white"
+          className="mt-6 rounded-full bg-[#2563EB] px-6 py-3 text-sm font-semibold text-white"
         >
           Ask Nick for an idea
         </Link>

@@ -41,23 +41,23 @@ export default function ToolsPage() {
   };
 
   return (
-    <div className="px-4 pt-12 pb-4 bg-[#0F0F0F] min-h-screen">
+    <div className="px-4 pt-12 pb-4 bg-white min-h-screen">
       <div className="flex items-center gap-3">
         <button onClick={() => router.back()} className="p-1" aria-label="Go back">
-          <ArrowLeft className="h-5 w-5 text-[#F5F0E8]" />
+          <ArrowLeft className="h-5 w-5 text-[#111111]" />
         </button>
-        <h1 className="text-lg font-bold text-[#F5F0E8] font-[family-name:var(--font-playfair)]">Kitchen Tools</h1>
+        <h1 className="text-lg font-bold text-[#111111] font-[family-name:var(--font-playfair)]">Kitchen Tools</h1>
       </div>
 
-      <div className="mt-6 divide-y divide-[#2A2A2A] rounded-xl border border-[#2A2A2A] bg-[#1A1A1A]">
+      <div className="mt-6 divide-y divide-[#E5E7EB] rounded-xl border border-[#E5E7EB] bg-[#F8F9FA]">
         {TOOLS.map((tool) => (
           <button
             key={tool}
             onClick={() => toggle(tool)}
             className="flex w-full items-center justify-between px-4 py-3"
           >
-            <span className="text-sm text-[#F5F0E8]">{tool}</span>
-            {selected.includes(tool) && <Check className="h-4 w-4 text-[#FF6B35]" />}
+            <span className="text-sm text-[#111111]">{tool}</span>
+            {selected.includes(tool) && <Check className="h-4 w-4 text-[#2563EB]" />}
           </button>
         ))}
       </div>

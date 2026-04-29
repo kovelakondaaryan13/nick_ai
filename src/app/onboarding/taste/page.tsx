@@ -12,7 +12,7 @@ export default function TasteStep() {
   return (
     <div className="flex flex-1 flex-col">
       <h1 className="text-xl font-bold">What flavors do you lean toward?</h1>
-      <p className="mt-1 text-sm text-[#9A9A8A]">Pick 3 or more for better recommendations.</p>
+      <p className="mt-1 text-sm text-[#6B7280]">Pick 3 or more for better recommendations.</p>
 
       <div className="mt-6 flex flex-wrap gap-3">
         {FLAVORS.map((flavor) => {
@@ -23,8 +23,8 @@ export default function TasteStep() {
               onClick={() => toggleTaste(flavor.toLowerCase())}
               className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
                 selected
-                  ? "bg-[#FF6B35] text-white"
-                  : "border border-[#2A2A2A] bg-transparent text-[#F5F0E8]"
+                  ? "bg-[#2563EB] text-white"
+                  : "border border-[#E5E7EB] bg-transparent text-[#111111]"
               }`}
             >
               {flavor}
@@ -34,7 +34,7 @@ export default function TasteStep() {
       </div>
 
       {tasteFingerprint.length > 0 && tasteFingerprint.length < 3 && (
-        <p className="mt-3 text-xs text-[#9A9A8A]">
+        <p className="mt-3 text-xs text-[#6B7280]">
           {3 - tasteFingerprint.length} more for best results
         </p>
       )}
@@ -43,13 +43,13 @@ export default function TasteStep() {
         <button
           onClick={() => router.push("/onboarding/dietary")}
           disabled={tasteFingerprint.length === 0}
-          className="w-full rounded-lg bg-[#FF6B35] py-3.5 text-sm font-semibold text-white disabled:opacity-30"
+          className="w-full rounded-lg bg-[#2563EB] py-3.5 text-sm font-semibold text-white disabled:opacity-30"
         >
           Continue
         </button>
         <button
           onClick={() => router.push("/onboarding/dietary")}
-          className="text-sm text-[#9A9A8A] underline"
+          className="text-sm text-[#6B7280] underline"
         >
           Skip
         </button>

@@ -42,27 +42,27 @@ export default async function ProfilePage() {
   ];
 
   return (
-    <div className="px-4 pt-12 pb-4 bg-[#0F0F0F] min-h-screen">
+    <div className="px-4 pt-12 pb-4 bg-white min-h-screen">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold text-[#F5F0E8] font-[family-name:var(--font-playfair)]">Profile</h1>
+        <h1 className="text-lg font-bold text-[#111111] font-[family-name:var(--font-playfair)]">Profile</h1>
         <Link href="/profile/settings" className="p-2" aria-label="Settings">
-          <Settings className="h-5 w-5 text-[#9A9A8A]" />
+          <Settings className="h-5 w-5 text-[#6B7280]" />
         </Link>
       </div>
 
       {/* Avatar + name */}
       <div className="mt-6 flex items-center gap-4">
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#FF6B35] text-2xl font-bold text-white">
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#2563EB] text-2xl font-bold text-white">
           {profile?.avatar_initial || "?"}
         </div>
         <div>
-          <p className="text-base font-semibold text-[#F5F0E8]">{profile?.display_name || user.email}</p>
-          <p className="text-xs text-[#9A9A8A]">
+          <p className="text-base font-semibold text-[#111111]">{profile?.display_name || user.email}</p>
+          <p className="text-xs text-[#6B7280]">
             {profile?.meals_count || 0} meals · joined {joined}
           </p>
           <Link
             href="/profile/edit"
-            className="mt-1 inline-block rounded-full border border-dashed border-[#2A2A2A] px-3 py-1 text-[10px] font-medium text-[#9A9A8A]"
+            className="mt-1 inline-block rounded-full border border-dashed border-[#E5E7EB] px-3 py-1 text-[10px] font-medium text-[#6B7280]"
           >
             Edit profile
           </Link>
@@ -71,14 +71,14 @@ export default async function ProfilePage() {
 
       {/* Taste fingerprint */}
       <div className="mt-6">
-        <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#9A9A8A]">
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#6B7280]">
           Taste Fingerprint
         </p>
         <ProfileTasteEditor current={profile?.taste_fingerprint || []} />
       </div>
 
       {/* Settings rows */}
-      <div className="mt-6 divide-y divide-[#2A2A2A] rounded-xl border border-[#2A2A2A] bg-[#1A1A1A]">
+      <div className="mt-6 divide-y divide-[#E5E7EB] rounded-xl border border-[#E5E7EB] bg-[#F8F9FA]">
         {settingsRows.map((row) => (
           <Link
             key={row.href}
@@ -86,10 +86,10 @@ export default async function ProfilePage() {
             className="flex items-center justify-between px-4 py-3.5"
           >
             <div>
-              <p className="text-sm font-medium text-[#F5F0E8]">{row.label}</p>
-              <p className="text-xs text-[#9A9A8A]">{row.subtitle}</p>
+              <p className="text-sm font-medium text-[#111111]">{row.label}</p>
+              <p className="text-xs text-[#6B7280]">{row.subtitle}</p>
             </div>
-            <ChevronRight className="h-4 w-4 text-[#9A9A8A]" />
+            <ChevronRight className="h-4 w-4 text-[#6B7280]" />
           </Link>
         ))}
       </div>

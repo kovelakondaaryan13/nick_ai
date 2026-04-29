@@ -24,7 +24,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#0F0F0F",
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({
@@ -38,11 +38,11 @@ export default function RootLayout({
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
       </head>
-      <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#0F0F0F] text-[#F5F0E8] antialiased`}>
-        <div className="mx-auto min-h-dvh max-w-[480px] bg-[#0F0F0F]">
+      <body className={`${inter.variable} ${playfair.variable} font-sans bg-white text-[#111111] antialiased`}>
+        <div className="mx-auto min-h-dvh max-w-[480px] bg-white">
           {children}
         </div>
-        <Toaster position="top-center" richColors theme="dark" />
+        <Toaster position="top-center" richColors theme="light" />
         <SWRegister />
         <OfflinePrecache />
         <PWAInstallPrompt />

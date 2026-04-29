@@ -8,18 +8,18 @@ export default function Welcome() {
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center text-center">
-      <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#FF6B35]">
+      <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#2563EB]">
         <ChefHat className="h-10 w-10 text-white" />
       </div>
-      <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#F5F0E8]">Hi, I&apos;m Nick.</h1>
-      <p className="mt-2 max-w-[280px] text-sm text-[#9A9A8A]">
+      <h1 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#111111]">Hi, I&apos;m Nick.</h1>
+      <p className="mt-2 max-w-[280px] text-sm text-[#6B7280]">
         Let me learn about you so I can cook for you. This takes 30 seconds.
       </p>
 
       <div className="mt-auto flex w-full flex-col gap-3 pt-12">
         <button
           onClick={() => router.push("/onboarding/taste")}
-          className="w-full rounded-lg bg-[#FF6B35] py-3.5 text-sm font-semibold text-white"
+          className="w-full rounded-lg bg-[#2563EB] py-3.5 text-sm font-semibold text-white"
         >
           Let&apos;s go
         </button>
@@ -34,7 +34,7 @@ export default function Welcome() {
               router.refresh();
             });
           }}
-          className="text-sm text-[#9A9A8A] underline"
+          className="text-sm text-[#6B7280] underline"
         >
           Skip for now
         </button>

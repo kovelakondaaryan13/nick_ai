@@ -37,7 +37,7 @@
 - PWA install prompt (Android + iOS)
 - Error handling with toast notifications across all mutation flows
 - Micro-interactions (button press, chip tap, view transitions)
-- Dark theme brand identity: #0F0F0F base, #FF6B35 accent, Playfair Display headings, consistent across all 40 routes
+- White/blue theme: #FFFFFF base, #2563EB accent, Playfair Display headings, consistent across all 41 routes
 
 ## Known issues / deferred
 - `ELEVENLABS_VOICE_ID` is placeholder — browser TTS active as fallback until voice clone audio prep is done

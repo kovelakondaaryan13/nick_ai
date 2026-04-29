@@ -33,15 +33,15 @@ export default function NotifPrefsPage() {
   };
 
   return (
-    <div className="px-4 pt-12 pb-4 bg-[#0F0F0F] min-h-screen">
+    <div className="px-4 pt-12 pb-4 bg-white min-h-screen">
       <div className="flex items-center gap-3">
         <button onClick={() => router.back()} className="p-1" aria-label="Go back">
-          <ArrowLeft className="h-5 w-5 text-[#F5F0E8]" />
+          <ArrowLeft className="h-5 w-5 text-[#111111]" />
         </button>
-        <h1 className="text-lg font-bold text-[#F5F0E8] font-[family-name:var(--font-playfair)]">Notifications</h1>
+        <h1 className="text-lg font-bold text-[#111111] font-[family-name:var(--font-playfair)]">Notifications</h1>
       </div>
 
-      <div className="mt-6 divide-y divide-[#2A2A2A] rounded-xl border border-[#2A2A2A] bg-[#1A1A1A]">
+      <div className="mt-6 divide-y divide-[#E5E7EB] rounded-xl border border-[#E5E7EB] bg-[#F8F9FA]">
         {([
           { key: "suggestions" as const, label: "Recipe suggestions", desc: "Daily dinner ideas from Nick" },
           { key: "reminders" as const, label: "Meal reminders", desc: "Nudges to cook at your usual time" },
@@ -49,14 +49,14 @@ export default function NotifPrefsPage() {
         ]).map((item) => (
           <label key={item.key} className="flex items-center justify-between px-4 py-3.5">
             <div>
-              <p className="text-sm font-medium text-[#F5F0E8]">{item.label}</p>
-              <p className="text-xs text-[#9A9A8A]">{item.desc}</p>
+              <p className="text-sm font-medium text-[#111111]">{item.label}</p>
+              <p className="text-xs text-[#6B7280]">{item.desc}</p>
             </div>
             <input
               type="checkbox"
               checked={prefs[item.key]}
               onChange={() => toggle(item.key)}
-              className="h-5 w-5 accent-[#FF6B35]"
+              className="h-5 w-5 accent-[#2563EB]"
             />
           </label>
         ))}
