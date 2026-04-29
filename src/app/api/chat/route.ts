@@ -19,13 +19,31 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
+  const chatBodySchema = z.object({
+    messages: z.array(
+      z.object({
+        role: z.enum(["user", "assistant", "system"]),
+        content: z.string().min(1).max(2000),
+      }).passthrough()
+    ).min(1),
+  }).passthrough();
+
   let body;
   try {
     body = await request.json();
   } catch {
-    return new Response("Invalid request", { status: 400 });
+    return Response.json({ error: "Invalid request" }, { status: 400 });
   }
-  const { messages } = body;
+
+  const parsed = chatBodySchema.safeParse(body);
+  if (!parsed.success) {
+    return Response.json(
+      { error: "Invalid message format", details: parsed.error.issues },
+      { status: 400 }
+    );
+  }
+
+  const { messages } = parsed.data;
   const lastUserMessage = messages[messages.length - 1]?.content || "";
 
   // Fetch profile

@@ -1,11 +1,31 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 
 export function useTTS() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const prefetchedRef = useRef<Map<string, string>>(new Map());
+  const prefetchAbortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      // Revoke all prefetched blob URLs on unmount
+      for (const url of prefetchedRef.current.values()) {
+        URL.revokeObjectURL(url);
+      }
+      prefetchedRef.current.clear();
+      // Abort any in-flight requests
+      abortRef.current?.abort();
+      prefetchAbortRef.current?.abort();
+      // Stop any playing audio
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      window.speechSynthesis?.cancel();
+    };
+  }, []);
 
   const stop = useCallback(() => {
     if (audioRef.current) {
@@ -72,8 +92,10 @@ export function useTTS() {
   const prefetch = useCallback(async (text: string) => {
     if (prefetchedRef.current.has(text)) return;
 
+    const controller = new AbortController();
+    prefetchAbortRef.current = controller;
+
     try {
-      const controller = new AbortController();
       const res = await fetch("/api/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

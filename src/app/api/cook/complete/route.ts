@@ -3,13 +3,34 @@ import { embed } from "@/lib/openai";
 import { upsertMemory } from "@/lib/qdrant";
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
+import { z } from "zod";
+
+const cookCompleteSchema = z.object({
+  recipe_id: z.string().uuid(),
+  rating: z.number().int().min(1).max(5),
+});
 
 export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { recipe_id, rating } = await request.json();
+  let rawBody;
+  try {
+    rawBody = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+
+  const parsed = cookCompleteSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Invalid data. Rating must be 1-5.", details: parsed.error.issues },
+      { status: 400 }
+    );
+  }
+
+  const { recipe_id, rating } = parsed.data;
 
   // Get recipe title for memory
   const { data: recipe } = await supabase

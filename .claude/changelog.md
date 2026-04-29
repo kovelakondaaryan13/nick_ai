@@ -3,6 +3,21 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **12 critical/high/config fixes applied pre-deploy:**
+  1. `/api/transcribe` — added Supabase auth (401) + 10MB file size limit (413) + try/catch on Whisper call (502).
+  2. `/api/tts` — added Supabase auth (401), removed in-memory char counter, added per-user daily limit (50k chars/day) via new `tts_usage` table with upsert on `(user_id, usage_date)`. Returns 429 with browser fallback when limit hit.
+  3. `/api/me` DELETE — replaced 7 individual DELETE queries with `supabase.rpc("delete_user_data")` Postgres function running all deletes in one transaction. Created migration `0003_delete_user_rpc.sql`.
+  4. `/api/scan` — added 10MB file size limit (413) + MIME type validation (only jpeg/png/webp, returns 415).
+  5. `next.config.ts` — added `poweredByHeader: false` + security headers: `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`.
+  6. `/api/chat` — added Zod validation on request body: messages array with role enum + content string (1-2000 chars). Returns 400 with structured errors.
+  7. `/api/onboarding/complete` — added Zod validation: taste_fingerprint (8 known flavors, max 8), dietary_flags (strict boolean object), allergens (known list), kitchen_tools (known list). `.strict()` rejects unknown keys. Case-insensitive.
+  8. `/api/cook/complete` — added Zod validation: recipe_id must be UUID, rating must be integer 1-5. Returns 400.
+  9. `middleware.ts` — cached `onboarding_complete` status in httpOnly cookie (7-day TTL). Skips DB query when cookie present. Cookie set on onboarding complete (both skip and full paths).
+  10. `useTTS.ts` — added useEffect cleanup: revokes all prefetched blob URLs, aborts in-flight fetch requests, stops playing audio on unmount. Added dedicated `prefetchAbortRef`.
+  11. Created `.env.example` with all 10 keys (values redacted), comments explaining each key and where to get it.
+  12. `tsconfig.json` — updated target from ES2017 to ES2020.
+  - Created migration `0002_tts_usage.sql` — `tts_usage` table with RLS, unique constraint on `(user_id, usage_date)`.
+  - 40 routes total, build clean.
 - **v1.0-alpha release.** All 12 build phases complete. 40 routes, build clean.
 - **Phase 12 complete:** Polish + bug bash.
   - Added error handling with toast notifications (sonner) to: shopping list (toggleCheck rollback + addItem), taste editor (save rollback), surprise page (fetch error), notifications (markRead), chat API (rate limit 429, Qdrant fallback to Postgres random).

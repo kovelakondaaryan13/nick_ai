@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI();
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -19,6 +21,14 @@ export async function POST(request: Request) {
 
   if (!imageFile) {
     return NextResponse.json({ error: "No image provided" }, { status: 400 });
+  }
+
+  if (imageFile.size > MAX_FILE_SIZE) {
+    return NextResponse.json({ error: "File too large." }, { status: 413 });
+  }
+
+  if (!ALLOWED_MIME_TYPES.includes(imageFile.type)) {
+    return NextResponse.json({ error: "Unsupported image format. Use JPEG, PNG, or WebP." }, { status: 415 });
   }
 
   const bytes = await imageFile.arrayBuffer();

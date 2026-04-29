@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 const publicRoutes = ["/signin", "/signup", "/auth/callback"];
 const onboardingRoutes = ["/onboarding"];
+const ONBOARDING_COOKIE = "onboarding_complete";
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -48,8 +49,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Check onboarding status for authenticated users on non-onboarding routes
   if (user && !isPublic && !isOnboarding && !pathname.startsWith("/api")) {
+    const cachedStatus = request.cookies.get(ONBOARDING_COOKIE)?.value;
+
+    if (cachedStatus === "true") {
+      return supabaseResponse;
+    }
+
     const { data: profile } = await supabase
       .from("profiles")
       .select("onboarding_complete")
@@ -60,6 +66,15 @@ export async function middleware(request: NextRequest) {
       const url = request.nextUrl.clone();
       url.pathname = "/onboarding/welcome";
       return NextResponse.redirect(url);
+    }
+
+    if (profile?.onboarding_complete) {
+      supabaseResponse.cookies.set(ONBOARDING_COOKIE, "true", {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+        httpOnly: true,
+        sameSite: "lax",
+      });
     }
   }
 
