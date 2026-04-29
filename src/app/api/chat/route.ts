@@ -1,7 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { createUIMessageStream, createUIMessageStreamResponse } from "ai";
-
-export const maxDuration = 30;
+import { NextResponse } from "next/server";
 
 const KEYWORD_RESPONSES: [string[], string][] = [
   [
@@ -28,6 +26,18 @@ const KEYWORD_RESPONSES: [string[], string][] = [
     ["tomato", "lemon", "quick", "meal"],
     "Oh nice fridge! Lemon garlic asparagus stir fry — 12 minutes, one pan, incredibly fresh. Want me to walk you through it step by step?",
   ],
+  [
+    ["comfort"],
+    "Mac and cheese with a crispy breadcrumb top — 20 minutes, pure comfort. Want the steps?",
+  ],
+  [
+    ["surprise", "random"],
+    "How about crispy sesame tofu bowls? 15 minutes, packed with flavor. Want me to walk you through it?",
+  ],
+  [
+    ["healthy", "light"],
+    "Mediterranean quinoa bowl — fresh, light, 12 minutes. Loaded with veggies and a lemon tahini drizzle. Want the steps?",
+  ],
 ];
 
 const FALLBACK_RESPONSE =
@@ -48,43 +58,21 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return new Response("Unauthorized", { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   let body;
   try {
     body = await request.json();
   } catch {
-    return Response.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { messages } = body;
-  if (!Array.isArray(messages) || messages.length === 0) {
-    return Response.json({ error: "Invalid message format" }, { status: 400 });
+  const { message } = body;
+  if (!message || typeof message !== "string") {
+    return NextResponse.json({ error: "Missing message" }, { status: 400 });
   }
 
-  const lastMsg = messages[messages.length - 1];
-  const lastUserMessage =
-    typeof lastMsg.content === "string"
-      ? lastMsg.content
-      : Array.isArray(lastMsg.content)
-        ? lastMsg.content.map((p: { text?: string }) => p.text || "").join("")
-        : "";
-
-  const reply = getResponse(lastUserMessage);
-
-  return createUIMessageStreamResponse({
-    stream: createUIMessageStream({
-      execute: async ({ writer }) => {
-        const partId = crypto.randomUUID();
-        const words = reply.split(" ");
-        for (let i = 0; i < words.length; i++) {
-          const chunk = (i === 0 ? "" : " ") + words[i];
-          writer.write({ type: "text-delta", delta: chunk, id: partId });
-          await new Promise((r) => setTimeout(r, 30));
-        }
-        writer.write({ type: "finish", finishReason: "stop" });
-      },
-    }),
-  });
+  const reply = getResponse(message);
+  return NextResponse.json({ reply });
 }

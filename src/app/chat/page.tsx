@@ -1,19 +1,15 @@
 "use client";
 
-import { useChat } from "@ai-sdk/react";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { X, Settings, ChefHat, Mic, Send, ArrowRight, Camera, Volume2, VolumeX } from "lucide-react";
+import { X, Settings, ChefHat, Mic, Send, Camera, Volume2, VolumeX } from "lucide-react";
 import { useTTS } from "@/hooks/useTTS";
 
-interface ChatRecipe {
+interface Message {
   id: string;
-  title: string;
-  hero_image_url?: string;
-  time_minutes?: number;
-  kcal?: number;
-  tags?: string[];
+  role: "user" | "assistant";
+  text: string;
 }
 
 const SUGGESTED_PROMPTS = [
@@ -38,11 +34,12 @@ function ChatInner() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
-  const { messages, sendMessage, status } = useChat();
   const tts = useTTS();
   const [voiceOn, setVoiceOn] = useState(false);
 
@@ -51,9 +48,6 @@ function ChatInner() {
       setVoiceOn(true);
     }
   }, []);
-  const lastSpokenRef = useRef<string | null>(null);
-
-  const isLoading = status === "streaming" || status === "submitted";
 
   useEffect(() => {
     if (prefilled && !input && messages.length === 0) {
@@ -65,32 +59,46 @@ function ChatInner() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, status]);
-
-  useEffect(() => {
-    if (!voiceOn || status !== "ready" || messages.length === 0) return;
-    const last = messages[messages.length - 1];
-    if (last.role !== "assistant") return;
-
-    const textParts = last.parts.filter((p): p is { type: "text"; text: string } => p.type === "text");
-    const fullText = textParts.map((p) => p.text).join("");
-    if (!fullText || fullText === lastSpokenRef.current) return;
-
-    const sentences = fullText.match(/[^.!?]+[.!?]+/g) || [fullText];
-    const voiceText = sentences.slice(0, 2).join(" ").trim();
-    lastSpokenRef.current = fullText;
-    tts.speak(voiceText);
-  }, [status, messages, voiceOn]);
+  }, [messages, isLoading]);
 
   useEffect(() => {
     localStorage.setItem("chat_voice_enabled", voiceOn.toString());
   }, [voiceOn]);
 
-  const handleSend = (text?: string) => {
+  const handleSend = async (text?: string) => {
     const msg = text || input.trim();
     if (!msg || isLoading) return;
-    sendMessage({ text: msg });
+
+    const userMsg: Message = { id: crypto.randomUUID(), role: "user", text: msg };
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg }),
+      });
+
+      const data = await res.json();
+      const reply = data.reply || "Sorry, I didn't catch that. Try again?";
+
+      const assistantMsg: Message = { id: crypto.randomUUID(), role: "assistant", text: reply };
+      setMessages((prev) => [...prev, assistantMsg]);
+
+      if (voiceOn) {
+        const sentences = reply.match(/[^.!?]+[.!?]+/g) || [reply];
+        tts.speak(sentences.slice(0, 2).join(" ").trim());
+      }
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        { id: crypto.randomUUID(), role: "assistant", text: "Something went wrong — try again!" },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const startRecording = async () => {
@@ -165,24 +173,6 @@ function ChatInner() {
 
         {messages.map((msg) => {
           const isUser = msg.role === "user";
-
-          const textParts = msg.parts.filter(
-            (p): p is { type: "text"; text: string } => p.type === "text"
-          );
-          const fullText = textParts.map((p) => p.text).join("");
-
-          const recipes: ChatRecipe[] = [];
-          for (const part of msg.parts) {
-            if (
-              part.type.startsWith("tool-") &&
-              "output" in part &&
-              part.output
-            ) {
-              const output = part.output as { recipes?: ChatRecipe[] };
-              if (output.recipes) recipes.push(...output.recipes);
-            }
-          }
-
           return (
             <div key={msg.id} className={`mb-3 flex ${isUser ? "justify-end" : "justify-start"}`}>
               {!isUser && (
@@ -191,36 +181,26 @@ function ChatInner() {
                 </div>
               )}
               <div className="max-w-[80%]">
-                {fullText && (
-                  <div
-                    className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
-                      isUser
-                        ? "bg-[#2563EB] text-white"
-                        : "border border-[#E5E7EB] bg-[#F8F9FA] text-[#111111]"
-                    }`}
-                  >
-                    {fullText.split("\n").map((line, i, arr) => (
-                      <span key={i}>
-                        {line}
-                        {i < arr.length - 1 && <br />}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                {recipes.length > 0 && (
-                  <div className="mt-2 space-y-2">
-                    {recipes.map((recipe) => (
-                      <InlineChatRecipeCard key={recipe.id} recipe={recipe} />
-                    ))}
-                  </div>
-                )}
+                <div
+                  className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                    isUser
+                      ? "bg-[#2563EB] text-white"
+                      : "border border-[#E5E7EB] bg-[#F8F9FA] text-[#111111]"
+                  }`}
+                >
+                  {msg.text.split("\n").map((line, i, arr) => (
+                    <span key={i}>
+                      {line}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           );
         })}
 
-        {isLoading && (messages.length === 0 || messages[messages.length - 1]?.role === "user") && (
+        {isLoading && (
           <div className="mb-3 flex justify-start">
             <div className="mr-2 mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#2563EB]/10">
               <ChefHat className="h-3.5 w-3.5 text-[#2563EB]" />
@@ -301,32 +281,5 @@ function ChatInner() {
         </form>
       </div>
     </div>
-  );
-}
-
-function InlineChatRecipeCard({ recipe }: { recipe: ChatRecipe }) {
-  return (
-    <Link
-      href={`/recipes/${recipe.id}`}
-      className="flex items-center gap-3 rounded-xl border border-[#E5E7EB] bg-[#F8F9FA] p-2.5"
-    >
-      {recipe.hero_image_url && (
-        <img
-          src={recipe.hero_image_url}
-          alt={recipe.title}
-          className="h-16 w-16 rounded-lg object-cover"
-        />
-      )}
-      <div className="min-w-0 flex-1">
-        <h4 className="truncate font-[family-name:var(--font-playfair)] text-sm font-semibold text-[#111111]">{recipe.title}</h4>
-        <p className="text-xs text-[#6B7280]">
-          {recipe.time_minutes ? `${recipe.time_minutes} min` : ""}
-          {recipe.kcal ? ` · ${recipe.kcal} kcal` : ""}
-        </p>
-        <div className="mt-1 flex items-center gap-1 text-xs font-medium text-[#2563EB]">
-          Cook this <ArrowRight className="h-3 w-3" />
-        </div>
-      </div>
-    </Link>
   );
 }
