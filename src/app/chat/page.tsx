@@ -44,12 +44,13 @@ function ChatInner() {
 
   const { messages, sendMessage, status } = useChat();
   const tts = useTTS();
-  const [voiceOn, setVoiceOn] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("chat_voice_enabled") === "true";
+  const [voiceOn, setVoiceOn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("chat_voice_enabled") === "true") {
+      setVoiceOn(true);
     }
-    return false;
-  });
+  }, []);
   const lastSpokenRef = useRef<string | null>(null);
 
   const isLoading = status === "streaming" || status === "submitted";

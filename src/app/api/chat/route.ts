@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createUIMessageStream, createUIMessageStreamResponse } from "ai";
 
 export const maxDuration = 30;
 
@@ -24,7 +25,7 @@ const KEYWORD_RESPONSES: [string[], string][] = [
     "Cacio e pepe — 3 ingredients, 12 minutes, tastes like a Roman restaurant. Shall we cook?",
   ],
   [
-    ["tomato", "lemon", "quick"],
+    ["tomato", "lemon", "quick", "meal"],
     "Oh nice fridge! Lemon garlic asparagus stir fry — 12 minutes, one pan, incredibly fresh. Want me to walk you through it step by step?",
   ],
 ];
@@ -72,28 +73,18 @@ export async function POST(request: Request) {
 
   const reply = getResponse(lastUserMessage);
 
-  const encoder = new TextEncoder();
-  const words = reply.split(" ");
-  const stream = new ReadableStream({
-    async start(controller) {
-      for (let i = 0; i < words.length; i++) {
-        const word = (i === 0 ? "" : " ") + words[i];
-        controller.enqueue(encoder.encode(`0:${JSON.stringify(word)}\n`));
-        await new Promise((r) => setTimeout(r, 30));
-      }
-      controller.enqueue(
-        encoder.encode(
-          `d:{"finishReason":"stop","usage":{"promptTokens":0,"completionTokens":0}}\n`
-        )
-      );
-      controller.close();
-    },
-  });
-
-  return new Response(stream, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "X-Vercel-AI-Data-Stream": "v1",
-    },
+  return createUIMessageStreamResponse({
+    stream: createUIMessageStream({
+      execute: async ({ writer }) => {
+        const partId = crypto.randomUUID();
+        const words = reply.split(" ");
+        for (let i = 0; i < words.length; i++) {
+          const chunk = (i === 0 ? "" : " ") + words[i];
+          writer.write({ type: "text-delta", delta: chunk, id: partId });
+          await new Promise((r) => setTimeout(r, 30));
+        }
+        writer.write({ type: "finish", finishReason: "stop" });
+      },
+    }),
   });
 }
