@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* ── Dark theme colour tokens ── */
+:root {
+  --bg-primary: #0F0F0F;
+  --bg-card: #1A1A1A;
+  --bg-elevated: #242424;
+  --text-primary: #F5F0E8;
+  --text-secondary: #9A9A8A;
+  --accent: #FF6B35;
+  --success: #4CAF50;
+  --border: #2A2A2A;
+}
+
 /* Hide scrollbars on horizontal scrollers */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -28,6 +40,11 @@ button:active:not(:disabled) {
 
 /* Timer complete flash */
 @keyframes border-flash {
-  0%, 100% { stroke: #22c55e; }
+  0%, 100% { stroke: var(--success); }
   50% { stroke: #86efac; }
+}
+
+/* Playfair Display heading utility */
+.font-display {
+  font-family: 'Playfair Display', serif;
 }

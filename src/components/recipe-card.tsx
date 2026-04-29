@@ -19,12 +19,15 @@ export function HeroRecipeCard({ recipe }: { recipe: Recipe }) {
           alt={recipe.title}
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         <div className="absolute bottom-4 left-4 right-4">
-          <h3 className="text-base font-semibold text-white">{recipe.title}</h3>
-          <p className="mt-0.5 text-xs text-white/80">
+          <h3 className="font-[family-name:var(--font-playfair)] text-base font-semibold text-white">{recipe.title}</h3>
+          <p className="mt-0.5 text-xs text-[#F5F0E8]/70">
             {recipe.time_minutes} min · {recipe.kcal} kcal
           </p>
+        </div>
+        <div className="absolute right-3 top-3 rounded-full bg-[#FF6B35] px-2.5 py-0.5 text-[10px] font-semibold text-white">
+          {recipe.difficulty}
         </div>
       </div>
     </Link>
@@ -35,7 +38,7 @@ export function RecipeRow({ recipe }: { recipe: Recipe }) {
   return (
     <Link
       href={`/recipes/${recipe.id}`}
-      className="flex items-center gap-3 rounded-xl border border-[#ECECEC] p-3"
+      className="flex items-center gap-3 rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-3"
     >
       <img
         src={recipe.hero_image_url}
@@ -43,8 +46,8 @@ export function RecipeRow({ recipe }: { recipe: Recipe }) {
         className="h-16 w-16 rounded-lg object-cover"
       />
       <div className="flex-1">
-        <h3 className="text-sm font-semibold">{recipe.title}</h3>
-        <p className="mt-0.5 text-xs text-[#6B6B6B]">
+        <h3 className="font-[family-name:var(--font-playfair)] text-sm font-semibold text-[#F5F0E8]">{recipe.title}</h3>
+        <p className="mt-0.5 text-xs text-[#9A9A8A]">
           {recipe.time_minutes} min · {recipe.difficulty}
         </p>
       </div>

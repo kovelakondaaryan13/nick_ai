@@ -104,11 +104,11 @@ export default function ScanPage() {
   if (capturedUrl) {
     return (
       <div className="flex h-dvh flex-col bg-black">
-        <div className="flex items-center justify-between px-4 py-3">
-          <button onClick={() => router.push("/")} className="text-white" aria-label="Close">
+        <div className="flex items-center justify-between border-b border-[#2A2A2A] px-4 py-3">
+          <button onClick={() => router.push("/")} className="text-[#F5F0E8]" aria-label="Close">
             <X className="h-6 w-6" />
           </button>
-          <span className="text-sm font-medium text-white">Review photo</span>
+          <span className="text-sm font-medium text-[#F5F0E8]">Review photo</span>
           <div className="w-6" />
         </div>
 
@@ -116,16 +116,16 @@ export default function ScanPage() {
           <img src={capturedUrl} alt="Captured fridge" className="max-h-full max-w-full object-contain" />
         </div>
 
-        <div className="flex gap-3 px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4">
+        <div className="flex gap-3 border-t border-[#2A2A2A] px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4">
           <button
             onClick={retake}
-            className="flex-1 rounded-full border border-white/30 py-3 text-sm font-medium text-white"
+            className="flex-1 rounded-full border border-[#2A2A2A] py-3 text-sm font-medium text-[#F5F0E8]"
           >
             Retake
           </button>
           <button
             onClick={confirm}
-            className="flex-1 rounded-full bg-white py-3 text-sm font-semibold text-black"
+            className="flex-1 rounded-full bg-[#FF6B35] py-3 text-sm font-semibold text-white"
           >
             Looks good
           </button>
@@ -136,24 +136,24 @@ export default function ScanPage() {
 
   return (
     <div className="flex h-dvh flex-col bg-black">
-      <div className="flex items-center justify-between px-4 py-3">
-        <button onClick={() => router.push("/")} className="text-white" aria-label="Close">
+      <div className="flex items-center justify-between border-b border-[#2A2A2A] px-4 py-3">
+        <button onClick={() => router.push("/")} className="text-[#F5F0E8]" aria-label="Close">
           <X className="h-6 w-6" />
         </button>
-        <span className="text-sm font-medium text-white">Scan your fridge</span>
+        <span className="text-sm font-medium text-[#F5F0E8]">Scan your fridge</span>
         <div className="w-6" />
       </div>
 
       <div className="relative flex flex-1 items-center justify-center overflow-hidden">
         {permissionDenied ? (
           <div className="flex flex-col items-center gap-4 px-8 text-center">
-            <Camera className="h-12 w-12 text-white/50" />
-            <p className="text-sm text-white/70">
+            <Camera className="h-12 w-12 text-[#9A9A8A]" />
+            <p className="text-sm text-[#9A9A8A]">
               Camera access denied. You can upload a photo instead.
             </p>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-black"
+              className="flex items-center gap-2 rounded-full bg-[#FF6B35] px-6 py-3 text-sm font-semibold text-white"
             >
               <Upload className="h-4 w-4" />
               Upload photo
@@ -171,17 +171,17 @@ export default function ScanPage() {
 
         {cameraReady && (
           <div className="absolute inset-x-0 top-4 flex justify-center">
-            <p className="rounded-full bg-black/50 px-4 py-1.5 text-xs text-white/80">
+            <p className="rounded-full bg-black/50 px-4 py-1.5 text-xs text-[#F5F0E8]/80">
               Point at your fridge or ingredients
             </p>
           </div>
         )}
       </div>
 
-      <div className="flex items-center justify-center gap-8 px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4">
+      <div className="flex items-center justify-center gap-8 border-t border-[#2A2A2A] px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4">
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-[#F5F0E8]"
           aria-label="Upload photo"
         >
           <Upload className="h-5 w-5" />
@@ -190,17 +190,17 @@ export default function ScanPage() {
         {cameraReady && (
           <button
             onClick={capture}
-            className="flex h-18 w-18 items-center justify-center rounded-full border-4 border-white bg-transparent"
+            className="flex h-18 w-18 items-center justify-center rounded-full border-4 border-[#F5F0E8] bg-transparent"
             aria-label="Take photo"
           >
-            <div className="h-14 w-14 rounded-full bg-white" />
+            <div className="h-14 w-14 rounded-full bg-[#F5F0E8]" />
           </button>
         )}
 
         {cameraReady && (
           <button
             onClick={() => setFacingMode((f) => (f === "environment" ? "user" : "environment"))}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-[#F5F0E8]"
             aria-label="Switch camera"
           >
             <SwitchCamera className="h-5 w-5" />

@@ -64,40 +64,40 @@ export default function PastMealsClient({ meals, stats }: Props) {
   const groups = groupByRecency(filtered);
 
   return (
-    <div className="px-4 pt-12 pb-4">
+    <div className="px-4 pt-12 pb-4 bg-[#0F0F0F] min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold">Past Meals</h1>
+        <h1 className="text-lg font-bold text-[#F5F0E8] font-[family-name:var(--font-playfair)]">Past Meals</h1>
         <button onClick={() => setShowFilter(!showFilter)} className="p-2" aria-label="Filter meals">
-          <Filter className="h-5 w-5 text-[#6B6B6B]" />
+          <Filter className="h-5 w-5 text-[#9A9A8A]" />
         </button>
       </div>
 
       {/* Stats */}
       <div className="mt-4 grid grid-cols-3 gap-3">
-        <div className="rounded-xl border border-dashed border-[#D0D0D0] p-3 text-center">
-          <p className="text-lg font-bold">{stats.thisWeekCount}</p>
-          <p className="text-[10px] text-[#6B6B6B]">THIS WEEK</p>
+        <div className="rounded-xl border border-dashed border-[#2A2A2A] bg-[#1A1A1A] p-3 text-center">
+          <p className="text-lg font-bold text-[#F5F0E8]">{stats.thisWeekCount}</p>
+          <p className="text-[10px] text-[#9A9A8A]">THIS WEEK</p>
         </div>
-        <div className="rounded-xl border border-dashed border-[#D0D0D0] p-3 text-center">
-          <p className="text-lg font-bold">{stats.avgRating}</p>
-          <p className="text-[10px] text-[#6B6B6B]">AVG RATING</p>
+        <div className="rounded-xl border border-dashed border-[#2A2A2A] bg-[#1A1A1A] p-3 text-center">
+          <p className="text-lg font-bold text-[#F5F0E8]">{stats.avgRating}</p>
+          <p className="text-[10px] text-[#9A9A8A]">AVG RATING</p>
         </div>
-        <div className="rounded-xl border border-dashed border-[#D0D0D0] p-3 text-center">
-          <p className="text-lg font-bold">{stats.reorders}</p>
-          <p className="text-[10px] text-[#6B6B6B]">REORDERS</p>
+        <div className="rounded-xl border border-dashed border-[#2A2A2A] bg-[#1A1A1A] p-3 text-center">
+          <p className="text-lg font-bold text-[#F5F0E8]">{stats.reorders}</p>
+          <p className="text-[10px] text-[#9A9A8A]">REORDERS</p>
         </div>
       </div>
 
       {/* Filter sheet */}
       {showFilter && (
-        <div className="mt-3 rounded-xl border border-[#ECECEC] bg-white p-4">
-          <p className="mb-2 text-xs font-semibold text-[#6B6B6B]">CUISINE</p>
+        <div className="mt-3 rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-4">
+          <p className="mb-2 text-xs font-semibold text-[#9A9A8A]">CUISINE</p>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setCuisineFilter(null)}
               className={`rounded-full border px-3 py-1 text-xs ${
-                !cuisineFilter ? "border-[#1A1A1A] bg-[#1A1A1A] text-white" : "border-[#D0D0D0] text-[#111111]"
+                !cuisineFilter ? "border-[#FF6B35] bg-[#FF6B35] text-white" : "border-[#2A2A2A] text-[#F5F0E8]"
               }`}
             >
               All
@@ -107,7 +107,7 @@ export default function PastMealsClient({ meals, stats }: Props) {
                 key={c}
                 onClick={() => setCuisineFilter(cuisineFilter === c ? null : c)}
                 className={`rounded-full border px-3 py-1 text-xs ${
-                  cuisineFilter === c ? "border-[#1A1A1A] bg-[#1A1A1A] text-white" : "border-[#D0D0D0] text-[#111111]"
+                  cuisineFilter === c ? "border-[#FF6B35] bg-[#FF6B35] text-white" : "border-[#2A2A2A] text-[#F5F0E8]"
                 }`}
               >
                 {c}
@@ -115,14 +115,14 @@ export default function PastMealsClient({ meals, stats }: Props) {
             ))}
           </div>
 
-          <p className="mb-2 mt-4 text-xs font-semibold text-[#6B6B6B]">MIN RATING</p>
+          <p className="mb-2 mt-4 text-xs font-semibold text-[#9A9A8A]">MIN RATING</p>
           <div className="flex gap-2">
             {[0, 1, 2, 3, 4, 5].map((r) => (
               <button
                 key={r}
                 onClick={() => setMinRating(r)}
                 className={`rounded-full border px-3 py-1 text-xs ${
-                  minRating === r ? "border-[#1A1A1A] bg-[#1A1A1A] text-white" : "border-[#D0D0D0] text-[#111111]"
+                  minRating === r ? "border-[#FF6B35] bg-[#FF6B35] text-white" : "border-[#2A2A2A] text-[#F5F0E8]"
                 }`}
               >
                 {r === 0 ? "Any" : `${r}+`}
@@ -136,14 +136,14 @@ export default function PastMealsClient({ meals, stats }: Props) {
       <div className="mt-6 space-y-6">
         {groups.map((group) => (
           <div key={group.label}>
-            <p className="mb-2 text-[10px] font-medium tracking-wider text-[#A0A0A0]">
+            <p className="mb-2 text-[10px] font-medium tracking-wider text-[#9A9A8A]">
               {group.label}
             </p>
             <div className="space-y-2">
               {group.meals.map((meal) => (
                 <div
                   key={meal.id}
-                  className="flex items-center gap-3 rounded-xl border border-[#ECECEC] bg-white p-3"
+                  className="flex items-center gap-3 rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-3"
                 >
                   <Link href={`/recipes/${meal.recipe.id}`} className="flex flex-1 items-center gap-3">
                     <img
@@ -152,8 +152,8 @@ export default function PastMealsClient({ meals, stats }: Props) {
                       className="h-16 w-16 rounded-lg object-cover"
                     />
                     <div className="flex-1 min-w-0">
-                      <h3 className="truncate text-sm font-semibold">{meal.recipe.title}</h3>
-                      <p className="text-xs text-[#6B6B6B]">
+                      <h3 className="truncate text-sm font-semibold text-[#F5F0E8]">{meal.recipe.title}</h3>
+                      <p className="text-xs text-[#9A9A8A]">
                         {meal.recipe.time_minutes} min · {meal.recipe.difficulty}
                       </p>
                       {meal.rating && (
@@ -162,18 +162,18 @@ export default function PastMealsClient({ meals, stats }: Props) {
                             <Star
                               key={s}
                               className={`h-3 w-3 ${
-                                s <= meal.rating! ? "fill-[#1A1A1A] text-[#1A1A1A]" : "text-[#D0D0D0]"
+                                s <= meal.rating! ? "fill-[#FF6B35] text-[#FF6B35]" : "text-[#2A2A2A]"
                               }`}
                             />
                           ))}
                         </div>
                       )}
                     </div>
-                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-[#A0A0A0]" />
+                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-[#9A9A8A]" />
                   </Link>
                   <Link
                     href={`/cook/${meal.recipe.id}`}
-                    className="flex-shrink-0 rounded-full bg-[#1A1A1A] px-3 py-1.5 text-xs font-medium text-white"
+                    className="flex-shrink-0 rounded-full bg-[#FF6B35] px-3 py-1.5 text-xs font-medium text-white"
                   >
                     Cook again
                   </Link>

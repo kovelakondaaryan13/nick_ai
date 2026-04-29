@@ -66,7 +66,6 @@ function ChatInner() {
     }
   }, [messages, status]);
 
-  // Play Nick voice when response completes
   useEffect(() => {
     if (!voiceOn || status !== "ready" || messages.length === 0) return;
     const last = messages[messages.length - 1];
@@ -76,7 +75,6 @@ function ChatInner() {
     const fullText = textParts.map((p) => p.text).join("");
     if (!fullText || fullText === lastSpokenRef.current) return;
 
-    // Cap at ~2 sentences for voice
     const sentences = fullText.match(/[^.!?]+[.!?]+/g) || [fullText];
     const voiceText = sentences.slice(0, 2).join(" ").trim();
     lastSpokenRef.current = fullText;
@@ -130,25 +128,25 @@ function ChatInner() {
   };
 
   return (
-    <div className="flex h-dvh flex-col bg-[#FAFAF7]">
+    <div className="flex h-dvh flex-col bg-[#0F0F0F]">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#ECECEC] bg-white px-4 py-3">
+      <div className="flex items-center justify-between border-b border-[#2A2A2A] bg-[#1A1A1A] px-4 py-3">
         <Link href="/" className="rounded-full p-1" aria-label="Close chat">
-          <X className="h-5 w-5" />
+          <X className="h-5 w-5 text-[#F5F0E8]/60" />
         </Link>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5">
-            <ChefHat className="h-4 w-4" />
-            <span className="text-sm font-semibold">Nick · your AI chef</span>
+            <ChefHat className="h-4 w-4 text-[#FF6B35]" />
+            <span className="text-sm font-semibold text-[#F5F0E8]">Nick · your AI chef</span>
           </div>
-          <p className="text-[10px] text-[#A0A0A0]">online · learns from you</p>
+          <p className="text-[10px] text-[#9A9A8A]">online · learns from you</p>
         </div>
         <div className="flex items-center gap-1">
           <button onClick={() => { setVoiceOn(!voiceOn); if (voiceOn) tts.stop(); }} className="rounded-full p-1" aria-label={voiceOn ? "Mute voice" : "Unmute voice"}>
-            {voiceOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4 text-[#A0A0A0]" />}
+            {voiceOn ? <Volume2 className="h-4 w-4 text-[#FF6B35]" /> : <VolumeX className="h-4 w-4 text-[#9A9A8A]" />}
           </button>
           <Link href="/profile" className="rounded-full p-1" aria-label="Settings">
-            <Settings className="h-4 w-4 text-[#6B6B6B]" />
+            <Settings className="h-4 w-4 text-[#9A9A8A]" />
           </Link>
         </div>
       </div>
@@ -157,8 +155,8 @@ function ChatInner() {
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4">
         {messages.length === 0 && !isLoading && (
           <div className="flex h-full flex-col items-center justify-center text-center">
-            <ChefHat className="mb-3 h-10 w-10 text-[#A0A0A0]" />
-            <p className="text-sm text-[#6B6B6B]">
+            <ChefHat className="mb-3 h-10 w-10 text-[#FF6B35]/40" />
+            <p className="text-sm text-[#9A9A8A]">
               Hey! Ask me anything about cooking.
             </p>
           </div>
@@ -187,8 +185,8 @@ function ChatInner() {
           return (
             <div key={msg.id} className={`mb-3 flex ${isUser ? "justify-end" : "justify-start"}`}>
               {!isUser && (
-                <div className="mr-2 mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#1A1A1A]">
-                  <ChefHat className="h-3.5 w-3.5 text-white" />
+                <div className="mr-2 mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#FF6B35]/20">
+                  <ChefHat className="h-3.5 w-3.5 text-[#FF6B35]" />
                 </div>
               )}
               <div className="max-w-[80%]">
@@ -196,8 +194,8 @@ function ChatInner() {
                   <div
                     className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                       isUser
-                        ? "bg-[#1A1A1A] text-white"
-                        : "border border-[#ECECEC] bg-white text-[#111111]"
+                        ? "bg-[#FF6B35] text-white"
+                        : "border border-[#2A2A2A] bg-[#1A1A1A] text-[#F5F0E8]"
                     }`}
                   >
                     {fullText.split("\n").map((line, i, arr) => (
@@ -223,14 +221,14 @@ function ChatInner() {
 
         {isLoading && (messages.length === 0 || messages[messages.length - 1]?.role === "user") && (
           <div className="mb-3 flex justify-start">
-            <div className="mr-2 mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#1A1A1A]">
-              <ChefHat className="h-3.5 w-3.5 text-white" />
+            <div className="mr-2 mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#FF6B35]/20">
+              <ChefHat className="h-3.5 w-3.5 text-[#FF6B35]" />
             </div>
-            <div className="rounded-2xl border border-[#ECECEC] bg-white px-4 py-3">
+            <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] px-4 py-3">
               <div className="flex gap-1">
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[#A0A0A0] [animation-delay:0ms]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[#A0A0A0] [animation-delay:150ms]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[#A0A0A0] [animation-delay:300ms]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-[#9A9A8A] [animation-delay:0ms]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-[#9A9A8A] [animation-delay:150ms]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-[#9A9A8A] [animation-delay:300ms]" />
               </div>
             </div>
           </div>
@@ -244,7 +242,7 @@ function ChatInner() {
             <button
               key={prompt}
               onClick={() => handleSend(prompt)}
-              className="flex-shrink-0 rounded-full border border-[#D0D0D0] px-3.5 py-1.5 text-xs font-medium text-[#111111] active:bg-[#1A1A1A] active:text-white"
+              className="flex-shrink-0 rounded-full border border-[#2A2A2A] px-3.5 py-1.5 text-xs font-medium text-[#F5F0E8] active:bg-[#FF6B35] active:border-[#FF6B35] active:text-white"
             >
               {prompt}
             </button>
@@ -253,7 +251,7 @@ function ChatInner() {
       )}
 
       {/* Composer */}
-      <div className="border-t border-[#ECECEC] bg-white px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="border-t border-[#2A2A2A] bg-[#1A1A1A] px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -268,7 +266,7 @@ function ChatInner() {
             onPointerLeave={stopRecording}
             aria-label={isRecording ? "Recording... release to stop" : "Hold to record voice"}
             className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full ${
-              isRecording ? "bg-red-500 text-white" : "bg-[#F0F0F0] text-[#6B6B6B]"
+              isRecording ? "bg-red-500 text-white" : "bg-[#242424] text-[#9A9A8A]"
             }`}
           >
             <Mic className="h-4 w-4" />
@@ -276,7 +274,7 @@ function ChatInner() {
 
           <Link
             href="/scan"
-            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#F0F0F0] text-[#6B6B6B]"
+            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#242424] text-[#9A9A8A]"
             aria-label="Scan fridge"
           >
             <Camera className="h-4 w-4" />
@@ -288,13 +286,13 @@ function ChatInner() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Message Nick..."
-            className="h-10 flex-1 rounded-full border border-[#ECECEC] bg-[#FAFAF7] px-4 text-sm outline-none placeholder:text-[#A0A0A0] focus:border-[#1A1A1A]"
+            className="h-10 flex-1 rounded-full border border-[#2A2A2A] bg-[#242424] px-4 text-sm text-[#F5F0E8] outline-none placeholder:text-[#9A9A8A]/60 focus:border-[#FF6B35]"
           />
 
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#1A1A1A] text-white disabled:opacity-40"
+            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#FF6B35] text-white disabled:opacity-40"
             aria-label="Send message"
           >
             <Send className="h-4 w-4" />
@@ -309,7 +307,7 @@ function InlineChatRecipeCard({ recipe }: { recipe: ChatRecipe }) {
   return (
     <Link
       href={`/recipes/${recipe.id}`}
-      className="flex items-center gap-3 rounded-xl border border-[#ECECEC] bg-white p-2.5"
+      className="flex items-center gap-3 rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-2.5"
     >
       {recipe.hero_image_url && (
         <img
@@ -319,12 +317,12 @@ function InlineChatRecipeCard({ recipe }: { recipe: ChatRecipe }) {
         />
       )}
       <div className="min-w-0 flex-1">
-        <h4 className="truncate text-sm font-semibold">{recipe.title}</h4>
-        <p className="text-xs text-[#6B6B6B]">
+        <h4 className="truncate font-[family-name:var(--font-playfair)] text-sm font-semibold text-[#F5F0E8]">{recipe.title}</h4>
+        <p className="text-xs text-[#9A9A8A]">
           {recipe.time_minutes ? `${recipe.time_minutes} min` : ""}
           {recipe.kcal ? ` · ${recipe.kcal} kcal` : ""}
         </p>
-        <div className="mt-1 flex items-center gap-1 text-xs font-medium text-[#1A1A1A]">
+        <div className="mt-1 flex items-center gap-1 text-xs font-medium text-[#FF6B35]">
           Cook this <ArrowRight className="h-3 w-3" />
         </div>
       </div>

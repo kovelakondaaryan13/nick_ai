@@ -99,24 +99,24 @@ export default function SurprisePage() {
   }, [spinning, fetchRandom]);
 
   return (
-    <div className="flex h-dvh flex-col bg-[#FAFAF7]">
+    <div className="flex h-dvh flex-col bg-[#0F0F0F]">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3">
-        <button onClick={() => router.push("/")} className="p-1" aria-label="Close">
+        <button onClick={() => router.push("/")} className="p-1 text-[#F5F0E8]" aria-label="Close">
           <X className="h-5 w-5" />
         </button>
-        <span className="text-sm font-semibold">Surprise me</span>
+        <span className="text-sm font-semibold text-[#F5F0E8]">Surprise me</span>
         <div className="w-6" />
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center px-6">
         {/* Dice */}
         <div className={`mb-4 ${spinning ? "animate-spin" : ""}`} style={{ animationDuration: "700ms" }}>
-          <Dice5 className="h-16 w-16 text-[#1A1A1A]" />
+          <Dice5 className="h-16 w-16 text-[#FF6B35]" />
         </div>
 
         {spinning && (
-          <p className="text-sm text-[#6B6B6B]">
+          <p className="text-sm text-[#9A9A8A]">
             shaking {totalRecipes > 0 ? totalRecipes.toLocaleString() : "..."} ideas...
           </p>
         )}
@@ -128,27 +128,27 @@ export default function SurprisePage() {
               fadeIn ? "opacity-100" : "opacity-0"
             }`}
           >
-            <div className="overflow-hidden rounded-2xl border border-[#ECECEC] bg-white">
+            <div className="overflow-hidden rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A]">
               <img
                 src={recipe.hero_image_url}
                 alt={recipe.title}
                 className="h-48 w-full object-cover"
               />
               <div className="p-4">
-                <h2 className="text-lg font-bold">{recipe.title}</h2>
-                <p className="mt-1 text-xs text-[#6B6B6B]">
+                <h2 className="font-[family-name:var(--font-playfair)] text-lg font-bold text-[#F5F0E8]">{recipe.title}</h2>
+                <p className="mt-1 text-xs text-[#9A9A8A]">
                   {recipe.time_minutes} min · {recipe.kcal} kcal · {recipe.difficulty}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {recipe.cuisine && (
-                    <span className="rounded-full border border-[#D0D0D0] px-2.5 py-0.5 text-[10px] font-medium">
+                    <span className="rounded-full border border-[#2A2A2A] px-2.5 py-0.5 text-[10px] font-medium text-[#9A9A8A]">
                       {recipe.cuisine}
                     </span>
                   )}
                   {recipe.tags?.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-[#D0D0D0] px-2.5 py-0.5 text-[10px] font-medium"
+                      className="rounded-full border border-[#2A2A2A] px-2.5 py-0.5 text-[10px] font-medium text-[#9A9A8A]"
                     >
                       {tag}
                     </span>
@@ -160,20 +160,20 @@ export default function SurprisePage() {
             <div className="mt-4 flex gap-3">
               <button
                 onClick={fetchRandom}
-                className="flex flex-1 items-center justify-center gap-2 rounded-full border border-dashed border-[#D0D0D0] py-3 text-sm font-medium text-[#111111]"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full border border-dashed border-[#FF6B35] py-3 text-sm font-medium text-[#FF6B35]"
               >
                 <RefreshCw className="h-4 w-4" />
                 Re-roll
               </button>
               <Link
                 href={`/recipes/${recipe.id}`}
-                className="flex flex-1 items-center justify-center rounded-full bg-[#1A1A1A] py-3 text-sm font-semibold text-white"
+                className="flex flex-1 items-center justify-center rounded-full bg-[#FF6B35] py-3 text-sm font-semibold text-white"
               >
                 Cook this
               </Link>
             </div>
 
-            <p className="mt-3 text-center text-[10px] text-[#A0A0A0]">
+            <p className="mt-3 text-center text-[10px] text-[#9A9A8A]">
               Shake your phone to re-roll
             </p>
           </div>

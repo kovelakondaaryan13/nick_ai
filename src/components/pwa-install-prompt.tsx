@@ -53,23 +53,23 @@ export default function PWAInstallPrompt() {
   if (!show) return null;
 
   return (
-    <div className="fixed bottom-24 left-1/2 z-50 w-[calc(100%-2rem)] max-w-[448px] -translate-x-1/2 rounded-2xl border border-[#ECECEC] bg-white p-4 shadow-lg">
+    <div className="fixed bottom-24 left-1/2 z-50 w-[calc(100%-2rem)] max-w-[448px] -translate-x-1/2 rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-4 shadow-lg">
       <button onClick={dismiss} className="absolute right-3 top-3">
-        <X className="h-4 w-4 text-[#A0A0A0]" />
+        <X className="h-4 w-4 text-[#9A9A8A]" />
       </button>
-      <h3 className="text-sm font-bold">Add Nick AI to Home Screen</h3>
+      <h3 className="text-sm font-bold text-[#F5F0E8]">Add Nick AI to Home Screen</h3>
       {isIOS ? (
-        <div className="mt-2 text-xs text-[#6B6B6B] leading-relaxed">
+        <div className="mt-2 text-xs text-[#9A9A8A] leading-relaxed">
           <p className="flex items-center gap-1">
             Tap <Share className="inline h-3.5 w-3.5" /> then <PlusSquare className="inline h-3.5 w-3.5" /> &quot;Add to Home Screen&quot;
           </p>
         </div>
       ) : (
         <div className="mt-3 flex gap-2">
-          <button onClick={dismiss} className="flex-1 rounded-lg border border-[#ECECEC] py-2.5 text-xs font-medium">
+          <button onClick={dismiss} className="flex-1 rounded-lg border border-[#2A2A2A] py-2.5 text-xs font-medium text-[#F5F0E8]">
             Not now
           </button>
-          <button onClick={handleInstall} className="flex-1 rounded-lg bg-[#1A1A1A] py-2.5 text-xs font-semibold text-white">
+          <button onClick={handleInstall} className="flex-1 rounded-lg bg-[#FF6B35] py-2.5 text-xs font-semibold text-white">
             Install
           </button>
         </div>

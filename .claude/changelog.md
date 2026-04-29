@@ -3,6 +3,19 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **Dark theme brand identity overhaul** — full visual redesign across every page:
+  - Colour system: bg-primary #0F0F0F, bg-card #1A1A1A, bg-elevated #242424, text-primary #F5F0E8, text-secondary #9A9A8A, accent #FF6B35, success #4CAF50, border #2A2A2A.
+  - Typography: Installed Playfair Display (via next/font/google, CSS variable `--font-playfair`) for headings, Inter for body.
+  - Foundation: globals.css CSS custom properties, layout.tsx dark body + Playfair variable, Toaster theme="dark".
+  - Core components: bottom-nav (dark bar, orange FAB), recipe-card (dark card, Playfair titles).
+  - Major pages: home (dark bg, Playfair heading, orange scan CTA, dark browse cards), chat (dark bg, orange user bubbles, dark Nick cards), cook mode (orange progress/buttons, Playfair step headings, dark modals), recipe detail (gradient to #0F0F0F, dark glass buttons, orange tabs/checkboxes).
+  - Secondary pages: past-meals, profile (+ all 6 sub-pages), shopping-list, notifications, surprise, scan, scan/review, cook done — all dark.
+  - Auth pages: signin + signup — dark inputs, orange CTAs, orange links.
+  - Onboarding: welcome (orange avatar, Playfair heading), taste, dietary, tools — all dark with orange selected chips/toggles/CTAs.
+  - Components: pwa-install-prompt (dark card, orange install), taste-editor (dark chips/borders), sign-out-button (dark border).
+  - Loading skeletons: all 6 updated to dark (#1A1A1A blocks, #2A2A2A borders).
+  - manifest.json: theme_color and background_color updated to #0F0F0F.
+  - 40 routes, build clean.
 - **8 medium-priority fixes (accessibility, API consistency, loading states, security polish):**
   1. Added `aria-label` to ~36 icon-only buttons across 18 files (back, close, filter, settings, save, share, voice toggle, mic, send, camera, copy, add, star rating).
   2. Added `aria-pressed` to allergen toggle buttons in dietary page.

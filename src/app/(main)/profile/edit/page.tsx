@@ -26,29 +26,29 @@ export default function EditProfilePage() {
   };
 
   return (
-    <div className="px-4 pt-12">
+    <div className="px-4 pt-12 bg-[#0F0F0F] min-h-screen">
       <div className="flex items-center gap-3">
         <button onClick={() => router.back()} className="p-1" aria-label="Go back">
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-5 w-5 text-[#F5F0E8]" />
         </button>
-        <h1 className="text-lg font-bold">Edit Profile</h1>
+        <h1 className="text-lg font-bold text-[#F5F0E8] font-[family-name:var(--font-playfair)]">Edit Profile</h1>
       </div>
 
       <div className="mt-6">
-        <label className="text-xs font-medium text-[#6B6B6B]">Display name</label>
+        <label className="text-xs font-medium text-[#9A9A8A]">Display name</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your name"
-          className="mt-1 h-12 w-full rounded-xl border border-[#ECECEC] bg-white px-4 text-sm outline-none focus:border-[#1A1A1A]"
+          className="mt-1 h-12 w-full rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] px-4 text-sm text-[#F5F0E8] placeholder-[#9A9A8A] outline-none focus:border-[#FF6B35]"
         />
       </div>
 
       <button
         onClick={save}
         disabled={!name.trim() || saving}
-        className="mt-6 w-full rounded-full bg-[#1A1A1A] py-3 text-sm font-semibold text-white disabled:opacity-40"
+        className="mt-6 w-full rounded-full bg-[#FF6B35] py-3 text-sm font-semibold text-white disabled:opacity-40"
       >
         {saving ? "Saving..." : "Save"}
       </button>

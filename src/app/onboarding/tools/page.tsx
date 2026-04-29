@@ -41,7 +41,7 @@ export default function ToolsStep() {
   return (
     <div className="flex flex-1 flex-col">
       <h1 className="text-xl font-bold">What&apos;s in your kitchen?</h1>
-      <p className="mt-1 text-sm text-[#6B6B6B]">Helps Nick suggest recipes you can actually make.</p>
+      <p className="mt-1 text-sm text-[#9A9A8A]">Helps Nick suggest recipes you can actually make.</p>
 
       <div className="mt-6 flex flex-wrap gap-3">
         {TOOLS.map((tool) => {
@@ -52,8 +52,8 @@ export default function ToolsStep() {
               onClick={() => store.toggleTool(tool.toLowerCase())}
               className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
                 selected
-                  ? "bg-[#1A1A1A] text-white"
-                  : "border border-[#D0D0D0] bg-transparent text-[#111111]"
+                  ? "bg-[#FF6B35] text-white"
+                  : "border border-[#2A2A2A] bg-transparent text-[#F5F0E8]"
               }`}
             >
               {tool}
@@ -66,7 +66,7 @@ export default function ToolsStep() {
         <button
           onClick={handleFinish}
           disabled={loading}
-          className="w-full rounded-lg bg-[#1A1A1A] py-3.5 text-sm font-semibold text-white disabled:opacity-50"
+          className="w-full rounded-lg bg-[#FF6B35] py-3.5 text-sm font-semibold text-white disabled:opacity-50"
         >
           {loading ? "Setting up..." : "Finish"}
         </button>
@@ -81,7 +81,7 @@ export default function ToolsStep() {
               router.refresh();
             });
           }}
-          className="text-sm text-[#6B6B6B] underline"
+          className="text-sm text-[#9A9A8A] underline"
         >
           Skip
         </button>

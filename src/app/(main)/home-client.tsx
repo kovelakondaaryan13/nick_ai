@@ -33,14 +33,14 @@ export default function HomeClient() {
   return (
     <div>
       {!online && (
-        <div className="mb-4 rounded-xl border border-dashed border-[#D0D0D0] px-4 py-3">
+        <div className="mb-4 rounded-xl border border-dashed border-[#2A2A2A] px-4 py-3">
           <div className="flex items-center gap-2">
-            <WifiOff className="h-4 w-4 text-[#A0A0A0]" />
-            <span className="text-xs font-medium text-[#6B6B6B]">
+            <WifiOff className="h-4 w-4 text-[#9A9A8A]" />
+            <span className="text-xs font-medium text-[#9A9A8A]">
               You&apos;re offline · showing cached recommendations
             </span>
-            <button onClick={check} className="ml-auto rounded-full border border-[#D0D0D0] p-1.5" aria-label="Retry connection">
-              <RefreshCw className="h-3 w-3 text-[#6B6B6B]" />
+            <button onClick={check} className="ml-auto rounded-full border border-[#2A2A2A] p-1.5" aria-label="Retry connection">
+              <RefreshCw className="h-3 w-3 text-[#9A9A8A]" />
             </button>
           </div>
         </div>
@@ -49,21 +49,21 @@ export default function HomeClient() {
       {loading && recipes.length === 0 && (
         <div className="flex gap-4 overflow-x-auto">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-[220px] w-[300px] flex-shrink-0 animate-pulse rounded-2xl bg-[#ECECEC]" />
+            <div key={i} className="h-[220px] w-[300px] flex-shrink-0 animate-pulse rounded-2xl bg-[#1A1A1A]" />
           ))}
         </div>
       )}
 
       {!loading && recipes.length === 0 && !online && (
-        <div className="flex flex-col items-center rounded-2xl border border-[#ECECEC] py-10 text-center">
+        <div className="flex flex-col items-center rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] py-10 text-center">
           <span className="text-3xl">👨‍🍳</span>
-          <p className="mt-2 text-sm font-semibold">Nick can&apos;t reach the kitchen</p>
-          <p className="mt-1 text-xs text-[#A0A0A0]">Check your connection</p>
+          <p className="mt-2 text-sm font-semibold text-[#F5F0E8]">Nick can&apos;t reach the kitchen</p>
+          <p className="mt-1 text-xs text-[#9A9A8A]">Check your connection</p>
           <div className="mt-4 flex gap-2">
-            <Link href="/browse" className="rounded-full border border-[#D0D0D0] px-4 py-2 text-xs font-medium">
+            <Link href="/browse" className="rounded-full border border-[#2A2A2A] px-4 py-2 text-xs font-medium text-[#F5F0E8]">
               View saved
             </Link>
-            <button onClick={check} className="rounded-full bg-[#1A1A1A] px-4 py-2 text-xs font-medium text-white">
+            <button onClick={check} className="rounded-full bg-[#FF6B35] px-4 py-2 text-xs font-medium text-white">
               Try again
             </button>
           </div>
@@ -89,7 +89,7 @@ export default function HomeClient() {
               <div
                 key={i}
                 className={`h-1.5 rounded-full transition-all ${
-                  i === current ? "w-6 bg-[#1A1A1A]" : "w-1.5 bg-[#D0D0D0]"
+                  i === current ? "w-6 bg-[#FF6B35]" : "w-1.5 bg-[#2A2A2A]"
                 }`}
               />
             ))}

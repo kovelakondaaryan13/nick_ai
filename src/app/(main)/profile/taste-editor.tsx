@@ -59,7 +59,7 @@ export default function ProfileTasteEditor({ current }: { current: string[] }) {
         {available.length > 0 && (
           <button
             onClick={() => setShowPicker(!showPicker)}
-            className="flex items-center gap-1 rounded-full border border-dashed border-[#D0D0D0] px-3 py-1.5 text-xs font-medium text-[#6B6B6B]"
+            className="flex items-center gap-1 rounded-full border border-dashed border-[#2A2A2A] px-3 py-1.5 text-xs font-medium text-[#9A9A8A]"
           >
             <Plus className="h-3 w-3" />
             add
@@ -72,7 +72,7 @@ export default function ProfileTasteEditor({ current }: { current: string[] }) {
             <button
               key={f}
               onClick={() => add(f)}
-              className="rounded-full border border-[#D0D0D0] px-3 py-1.5 text-xs font-medium capitalize text-[#111111]"
+              className="rounded-full border border-[#2A2A2A] px-3 py-1.5 text-xs font-medium capitalize text-[#F5F0E8]"
             >
               {f}
             </button>

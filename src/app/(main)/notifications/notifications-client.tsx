@@ -71,9 +71,9 @@ export default function NotificationsClient({
   if (notifications.length === 0) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
-        <Bell className="mb-4 h-12 w-12 text-[#A0A0A0]" />
-        <h2 className="text-lg font-semibold">No notifications</h2>
-        <p className="mt-1 text-sm text-[#6B6B6B]">
+        <Bell className="mb-4 h-12 w-12 text-[#9A9A8A]" />
+        <h2 className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-[#F5F0E8]">No notifications</h2>
+        <p className="mt-1 text-sm text-[#9A9A8A]">
           Nick will let you know when he has ideas.
         </p>
       </div>
@@ -82,7 +82,7 @@ export default function NotificationsClient({
 
   return (
     <div className="px-4 pt-12 pb-4">
-      <h1 className="text-lg font-bold">Notifications</h1>
+      <h1 className="font-[family-name:var(--font-playfair)] text-lg font-bold text-[#F5F0E8]">Notifications</h1>
 
       <div className="mt-3 flex gap-2">
         {FILTERS.map((f) => (
@@ -91,8 +91,8 @@ export default function NotificationsClient({
             onClick={() => setFilter(f)}
             className={`rounded-full border px-3 py-1 text-xs font-medium ${
               filter === f
-                ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
-                : "border-[#D0D0D0] text-[#111111]"
+                ? "border-[#FF6B35] bg-[#FF6B35] text-white"
+                : "border-[#2A2A2A] text-[#F5F0E8]"
             }`}
           >
             {f}
@@ -109,21 +109,21 @@ export default function NotificationsClient({
               onClick={() => markRead(notif)}
               className={`flex w-full items-start gap-3 rounded-xl border p-3.5 text-left ${
                 notif.read
-                  ? "border-[#ECECEC] bg-[#F5F5F5]"
-                  : "border-[#ECECEC] bg-white"
+                  ? "border-[#2A2A2A] bg-[#242424]"
+                  : "border-[#2A2A2A] bg-[#1A1A1A]"
               }`}
             >
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[#1A1A1A]">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[#FF6B35]">
                 <Icon className="h-4 w-4 text-white" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <p className={`text-sm ${notif.read ? "" : "font-semibold"}`}>
+                  <p className={`text-sm text-[#F5F0E8] ${notif.read ? "" : "font-semibold"}`}>
                     {notif.title}
                   </p>
                   <div className="flex items-center gap-1.5 flex-shrink-0">
-                    <span className="text-[10px] text-[#A0A0A0]">{timeAgo(notif.created_at)}</span>
-                    {!notif.read && <span className="h-2 w-2 rounded-full bg-[#1A1A1A]" />}
+                    <span className="text-[10px] text-[#9A9A8A]">{timeAgo(notif.created_at)}</span>
+                    {!notif.read && <span className="h-2 w-2 rounded-full bg-[#FF6B35]" />}
                   </div>
                 </div>
               </div>
@@ -132,7 +132,7 @@ export default function NotificationsClient({
         })}
       </div>
 
-      <p className="mt-6 text-center text-xs text-[#A0A0A0]">that&apos;s everything for now</p>
+      <p className="mt-6 text-center text-xs text-[#9A9A8A]">that&apos;s everything for now</p>
     </div>
   );
 }
