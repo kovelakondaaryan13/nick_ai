@@ -2,12 +2,13 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { X, Camera, SwitchCamera, Upload } from "lucide-react";
+import { X, Camera, SwitchCamera, Upload, Loader2 } from "lucide-react";
 
 export default function ScanPage() {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [scanning, setScanning] = useState(false);
   const streamRef = useRef<MediaStream | null>(null);
   const [facingMode, setFacingMode] = useState<"environment" | "user">("environment");
   const [capturedBlob, setCapturedBlob] = useState<Blob | null>(null);
@@ -83,20 +84,27 @@ export default function ScanPage() {
   };
 
   const confirm = async () => {
-    if (!capturedBlob) return;
+    if (!capturedBlob || scanning) return;
+    setScanning(true);
 
     const ingredients = [
-      { name: "eggs", quantity: "6", confidence: "high" },
-      { name: "cheese", quantity: "1 block", confidence: "high" },
-      { name: "tomatoes", quantity: "3", confidence: "high" },
-      { name: "spinach", quantity: "1 bag", confidence: "high" },
-      { name: "butter", quantity: "1 stick", confidence: "high" },
-      { name: "milk", quantity: "1 carton", confidence: "high" },
+      { name: "tomatoes", quantity: null, confidence: "high" },
+      { name: "red bell pepper", quantity: null, confidence: "high" },
+      { name: "asparagus", quantity: null, confidence: "high" },
+      { name: "broccoli", quantity: null, confidence: "high" },
+      { name: "spinach", quantity: null, confidence: "high" },
+      { name: "cabbage", quantity: null, confidence: "high" },
+      { name: "strawberries", quantity: null, confidence: "high" },
+      { name: "lemon", quantity: null, confidence: "high" },
+      { name: "basil", quantity: null, confidence: "high" },
     ];
 
     sessionStorage.setItem("scan_ingredients", JSON.stringify(ingredients));
+
+    await new Promise((r) => setTimeout(r, 2000));
+
     const prompt = encodeURIComponent(
-      "I have eggs, cheese, tomatoes, spinach, butter and milk — what can I make?"
+      "Nick, I have tomatoes, asparagus, broccoli, spinach, basil and lemon. What's the best quick meal?"
     );
     router.push(`/chat?prompt=${prompt}`);
   };
@@ -125,9 +133,17 @@ export default function ScanPage() {
           </button>
           <button
             onClick={confirm}
-            className="flex-1 rounded-full bg-[#2563EB] py-3 text-sm font-semibold text-white"
+            disabled={scanning}
+            className="flex-1 rounded-full bg-[#2563EB] py-3 text-sm font-semibold text-white disabled:opacity-70"
           >
-            Looks good
+            {scanning ? (
+              <span className="flex items-center justify-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Scanning…
+              </span>
+            ) : (
+              "Looks good"
+            )}
           </button>
         </div>
       </div>

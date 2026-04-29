@@ -18,17 +18,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No image provided" }, { status: 400 });
   }
 
-  const ingredients = [
-    { name: "eggs", quantity: "6", confidence: "high" },
-    { name: "cheese", quantity: "1 block", confidence: "high" },
-    { name: "tomatoes", quantity: "3", confidence: "high" },
-    { name: "spinach", quantity: "1 bag", confidence: "high" },
-    { name: "butter", quantity: "1 stick", confidence: "high" },
-    { name: "milk", quantity: "1 carton", confidence: "high" },
-  ];
-
   return NextResponse.json({
-    ingredients,
-    analysis: "Looks like breakfast ingredients!",
+    ingredients: [
+      { name: "tomatoes", quantity: null, confidence: "high" },
+      { name: "red bell pepper", quantity: null, confidence: "high" },
+      { name: "asparagus", quantity: null, confidence: "high" },
+      { name: "broccoli", quantity: null, confidence: "high" },
+      { name: "spinach", quantity: null, confidence: "high" },
+      { name: "cabbage", quantity: null, confidence: "high" },
+      { name: "strawberries", quantity: null, confidence: "high" },
+      { name: "lemon", quantity: null, confidence: "high" },
+      { name: "basil", quantity: null, confidence: "high" },
+    ],
+    analysis: "Fresh fridge! Lots of greens and fruits.",
   });
 }

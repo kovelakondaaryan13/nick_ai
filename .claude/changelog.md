@@ -3,7 +3,12 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
-- **DEMO MODE — hardcoded everything for live pitch:**
+- **DEMO MODE v2 — Groq + hardcoded scan + SW fix for pitch:**
+  1. Switched chat from OpenRouter (Gemma) → Groq (`llama3-8b-8192`). Keyword detection runs first (asparagus/broccoli/spinach/basil/fridge, walk/yes/step/guide, eggs/bread/cheese/bachelor/1 pan, chicken, pasta). If no match, Groq generates response with Nick system prompt. If Groq fails, returns hardcoded fallback.
+  2. Service worker: added `if (event.request.method !== "GET") return;` at top of fetch handler — stops SW intercepting POST requests to /api/chat.
+  3. Scan API returns hardcoded veggies (tomatoes, red bell pepper, asparagus, broccoli, spinach, cabbage, strawberries, lemon, basil). "Looks good" button shows spinner for 2s then redirects to chat with auto-prompt.
+  4. `.env` — replaced `OPENROUTER_API_KEY` with `GROQ_API_KEY`.
+- **DEMO MODE v1 — hardcoded everything for live pitch (superseded by v2):**
   1. `/api/chat` — bypasses OpenRouter entirely. Keyword detection: eggs/bread/bachelor/1 pan → fried egg sandwich response, chicken → garlic butter chicken, pasta → cacio e pepe, fallback → "quick or all out?" Streams via AI SDK v6 UI message format.
   2. `/api/scan` — bypasses GPT-4o. Returns hardcoded ingredients (eggs, cheese, tomatoes, spinach, butter, milk). Scan page "Looks good" now skips review and redirects straight to chat with "I have eggs, cheese, tomatoes, spinach, butter and milk — what can I make?"
   3. `manifest.json` — replaced with clean minimal PWA manifest, theme_color #2563EB, favicon.svg icon.
