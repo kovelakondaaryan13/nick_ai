@@ -3,6 +3,11 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **3 critical runtime fixes:**
+  1. `/api/chat` returning 400 — Zod schema expected `content: string` but AI SDK v6 `useChat` sends `content` as array of parts. Replaced strict Zod validation with flexible parsing that handles both string and array content formats.
+  2. `/api/scan` fridge scan not returning structured ingredients — added `response_format: { type: "json_object" }` to GPT-4o call and moved ingredient detection instructions to system prompt. Guarantees clean JSON output instead of markdown-wrapped text.
+  3. TTS not playing in cook mode — `ELEVENLABS_VOICE_ID` was placeholder `ADD_AFTER_PHASE_9_VOICE_CLONE`, which triggered the 503 fallback in `/api/tts`. Set to ElevenLabs default Rachel voice `21m00Tcm4TlvDq8ikWAM`.
+  - 41 routes, build clean.
 - **Reverted to white/blue theme** — full visual redesign replacing dark theme across 35+ files:
   - Colour system: bg #FFFFFF, cards #F8F9FA, elevated #F3F4F6, text #111111, secondary #6B7280, accent #2563EB (blue), border #E5E7EB, success #4CAF50 (green kept).
   - Foundation: globals.css CSS vars updated, layout.tsx bg-white + Toaster theme="light", themeColor #FFFFFF.

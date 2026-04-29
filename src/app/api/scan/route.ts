@@ -39,11 +39,15 @@ export async function POST(request: Request) {
     model: "gpt-4o",
     messages: [
       {
+        role: "system",
+        content: 'You are a food ingredient detector. Given a fridge or food image, identify all visible ingredients. Return ONLY valid JSON — no markdown, no explanation. Format: {"ingredients": [{"name": "string", "quantity": "string or null", "confidence": "high|medium|low"}], "analysis": "one-line description of what you see"}. Be specific (e.g. "cherry tomatoes" not "vegetables"). Include condiments, sauces, beverages.',
+      },
+      {
         role: "user",
         content: [
           {
             type: "text",
-            text: 'Identify all food ingredients visible in this image. Return ONLY valid JSON in this format: {"ingredients": [{"name": "string", "quantity": "string or null", "confidence": "high|medium|low"}]}. Be specific (e.g. "cherry tomatoes" not "vegetables"). Include everything visible including condiments, sauces, beverages.',
+            text: "What ingredients do you see in this image?",
           },
           {
             type: "image_url",
@@ -52,6 +56,7 @@ export async function POST(request: Request) {
         ],
       },
     ],
+    response_format: { type: "json_object" },
     max_tokens: 1024,
   });
 

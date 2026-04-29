@@ -40,7 +40,7 @@
 - White/blue theme: #FFFFFF base, #2563EB accent, Playfair Display headings, consistent across all 41 routes
 
 ## Known issues / deferred
-- `ELEVENLABS_VOICE_ID` is placeholder — browser TTS active as fallback until voice clone audio prep is done
+- `ELEVENLABS_VOICE_ID` set to Rachel default (21m00Tcm4TlvDq8ikWAM) — working TTS, not a custom Nick clone yet
 - PWA icons are SVG placeholders — need proper PNG icons designed
 - No real Lighthouse audit run (requires deployed instance)
 - View Transitions API only works in Chrome/Edge — no polyfill for Safari
