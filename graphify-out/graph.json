@@ -1,0 +1,528 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "hyper_doc_locations",
+        "label": "Doc file routing",
+        "nodes": [
+          "claudemd_where_things_belong",
+          "claudemd_context_md",
+          "claudemd_brand_md",
+          "claudemd_skills_dir",
+          "claudemd_changelog_md"
+        ],
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "relation": "participate_in",
+        "source_file": "CLAUDE.md"
+      },
+      {
+        "id": "hyper_conditional_files",
+        "label": "Earned-place conditional docs",
+        "nodes": [
+          "claudemd_create_new_files",
+          "claudemd_roadmap_md",
+          "claudemd_decisions_md",
+          "claudemd_competitors_md"
+        ],
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "relation": "participate_in",
+        "source_file": "CLAUDE.md"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "CLAUDE.md Operating Rules",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_operating_rules",
+      "community": 1
+    },
+    {
+      "label": "Read Before You Write",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "Read before you write",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_read_before_write",
+      "community": 0
+    },
+    {
+      "label": ".claude/context.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_context_md",
+      "community": 0
+    },
+    {
+      "label": ".claude/changelog.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_changelog_md",
+      "community": 3
+    },
+    {
+      "label": ".claude/brand.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_brand_md",
+      "community": 0
+    },
+    {
+      "label": ".claude/skills/",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_skills_dir",
+      "community": 0
+    },
+    {
+      "label": "Log Every Change Same Turn",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "Log every change, same turn",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_log_every_change",
+      "community": 1
+    },
+    {
+      "label": "Answer First Then Update",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "Answer first, then update",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_answer_first",
+      "community": 1
+    },
+    {
+      "label": "Where Things Belong",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "Where things belong",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_where_things_belong",
+      "community": 0
+    },
+    {
+      "label": "Create New Files When Earned",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "Create new files when they earn their place",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_create_new_files",
+      "community": 2
+    },
+    {
+      "label": "API Keys Policy",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "API keys",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_api_keys",
+      "community": 3
+    },
+    {
+      "label": ".env File",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_env_file",
+      "community": 3
+    },
+    {
+      "label": "Docs Style",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "Docs style",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_docs_style",
+      "community": 1
+    },
+    {
+      "label": "roadmap.md (conditional)",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_roadmap_md",
+      "community": 2
+    },
+    {
+      "label": "decisions.md (conditional)",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_decisions_md",
+      "community": 2
+    },
+    {
+      "label": "competitors.md (conditional)",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_competitors_md",
+      "community": 2
+    },
+    {
+      "label": "Rationale: Files Are Source of Truth",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "Read before you write",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_source_of_truth_rationale",
+      "community": 0
+    },
+    {
+      "label": "Rationale: Test Keys With Caps",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "API keys",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claudemd_test_keys_rationale",
+      "community": 3
+    }
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_operating_rules",
+      "_tgt": "claudemd_read_before_write",
+      "source": "claudemd_operating_rules",
+      "target": "claudemd_read_before_write"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_operating_rules",
+      "_tgt": "claudemd_log_every_change",
+      "source": "claudemd_operating_rules",
+      "target": "claudemd_log_every_change"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_operating_rules",
+      "_tgt": "claudemd_answer_first",
+      "source": "claudemd_operating_rules",
+      "target": "claudemd_answer_first"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_operating_rules",
+      "_tgt": "claudemd_docs_style",
+      "source": "claudemd_operating_rules",
+      "target": "claudemd_docs_style"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_read_before_write",
+      "_tgt": "claudemd_context_md",
+      "source": "claudemd_read_before_write",
+      "target": "claudemd_context_md"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_source_of_truth_rationale",
+      "_tgt": "claudemd_read_before_write",
+      "source": "claudemd_read_before_write",
+      "target": "claudemd_source_of_truth_rationale"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_where_things_belong",
+      "_tgt": "claudemd_context_md",
+      "source": "claudemd_context_md",
+      "target": "claudemd_where_things_belong"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 0.65,
+      "_src": "claudemd_context_md",
+      "_tgt": "claudemd_brand_md",
+      "source": "claudemd_context_md",
+      "target": "claudemd_brand_md"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_log_every_change",
+      "_tgt": "claudemd_changelog_md",
+      "source": "claudemd_changelog_md",
+      "target": "claudemd_log_every_change"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_where_things_belong",
+      "_tgt": "claudemd_changelog_md",
+      "source": "claudemd_changelog_md",
+      "target": "claudemd_where_things_belong"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_create_new_files",
+      "_tgt": "claudemd_changelog_md",
+      "source": "claudemd_changelog_md",
+      "target": "claudemd_create_new_files"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_api_keys",
+      "_tgt": "claudemd_changelog_md",
+      "source": "claudemd_changelog_md",
+      "target": "claudemd_api_keys"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_where_things_belong",
+      "_tgt": "claudemd_brand_md",
+      "source": "claudemd_brand_md",
+      "target": "claudemd_where_things_belong"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_where_things_belong",
+      "_tgt": "claudemd_skills_dir",
+      "source": "claudemd_skills_dir",
+      "target": "claudemd_where_things_belong"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 0.7,
+      "_src": "claudemd_log_every_change",
+      "_tgt": "claudemd_answer_first",
+      "source": "claudemd_log_every_change",
+      "target": "claudemd_answer_first"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_create_new_files",
+      "_tgt": "claudemd_roadmap_md",
+      "source": "claudemd_create_new_files",
+      "target": "claudemd_roadmap_md"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_create_new_files",
+      "_tgt": "claudemd_decisions_md",
+      "source": "claudemd_create_new_files",
+      "target": "claudemd_decisions_md"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_create_new_files",
+      "_tgt": "claudemd_competitors_md",
+      "source": "claudemd_create_new_files",
+      "target": "claudemd_competitors_md"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_api_keys",
+      "_tgt": "claudemd_env_file",
+      "source": "claudemd_api_keys",
+      "target": "claudemd_env_file"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "claudemd_test_keys_rationale",
+      "_tgt": "claudemd_api_keys",
+      "source": "claudemd_api_keys",
+      "target": "claudemd_test_keys_rationale"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "hyper_doc_locations",
+      "label": "Doc file routing",
+      "nodes": [
+        "claudemd_where_things_belong",
+        "claudemd_context_md",
+        "claudemd_brand_md",
+        "claudemd_skills_dir",
+        "claudemd_changelog_md"
+      ],
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "relation": "participate_in",
+      "source_file": "CLAUDE.md"
+    },
+    {
+      "id": "hyper_conditional_files",
+      "label": "Earned-place conditional docs",
+      "nodes": [
+        "claudemd_create_new_files",
+        "claudemd_roadmap_md",
+        "claudemd_decisions_md",
+        "claudemd_competitors_md"
+      ],
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "relation": "participate_in",
+      "source_file": "CLAUDE.md"
+    }
+  ]
+}
