@@ -1,0 +1,23 @@
+{
+  "name": "Nick AI",
+  "short_name": "Nick AI",
+  "description": "Cook with your favorite chef.",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#1A1A1A",
+  "background_color": "#FAFAF7",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

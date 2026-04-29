@@ -2,6 +2,22 @@
 
 Dated log of every change. Newest at top. Tiniest changes included.
 
+## 2026-04-29
+- **Phase 11 complete:** Offline mode + PWA service worker.
+  - Created `public/sw.js` — custom service worker with 4 caching strategies: NetworkFirst (3s timeout) for `/api/*`, CacheFirst for static assets/images/fonts, StaleWhileRevalidate for pages, NetworkOnly for `/api/chat`. Supports `CACHE_RECIPE` and `CACHE_TTS` message events for targeted pre-caching.
+  - Created `public/manifest.json` — PWA manifest with name "Nick AI", standalone display, theme_color #1A1A1A, background_color #FAFAF7, SVG placeholder icons (chef hat, dark on white).
+  - Created `public/icons/icon-192.svg` and `icon-512.svg` — placeholder chef hat icons.
+  - Created `src/components/sw-register.tsx` — registers service worker on mount.
+  - Created `src/components/offline-precache.tsx` — on main layout mount, fetches user's last 5 saved recipes and pre-caches their pages, hero images, step images, and TTS audio via service worker postMessage. Fire-and-forget with 5s delay.
+  - Created `src/components/pwa-install-prompt.tsx` — install prompt after 3 sessions. Android Chrome: `beforeinstallprompt` event with Install/Not now buttons. iOS Safari: manual instructions (tap Share → Add to Home Screen). Dismissible, persisted to localStorage.
+  - Created `src/hooks/useOnlineStatus.ts` — `navigator.onLine` + online/offline events + `/api/health` ping every 30s.
+  - Created `src/app/api/health/route.ts` — simple `{status: "ok"}` endpoint for connectivity check.
+  - Updated `src/app/layout.tsx` — added manifest link, apple-web-app meta, theme-color viewport, apple-touch-icon, SW register + offline precache + PWA install prompt components.
+  - Updated `src/app/(main)/home-client.tsx` — offline banner (dashed border, WifiOff icon, retry chip), "Nick can't reach the kitchen" empty state with View saved + Try again CTAs when offline and no cached recipes.
+  - Cook mode for saved recipes works offline (HTML + images + TTS audio pre-cached by SW). Non-cached recipes show SW 503 fallback.
+  - Shopping list, past meals, profile: StaleWhileRevalidate caching shows stale-but-readable data offline.
+  - 40 routes total, build clean.
+
 ## 2026-04-27
 - **Phase 10 complete:** Voice navigation in cook mode (Web Speech Recognition).
   - Added Web Speech Recognition to `cook-mode-client.tsx` — feature-detected `SpeechRecognition` / `webkitSpeechRecognition`. Mic toggle button in header (off by default). When on, continuous listening with command matching.
