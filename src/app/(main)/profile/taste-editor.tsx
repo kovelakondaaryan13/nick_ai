@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { X, Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 const ALL_FLAVORS = ["spicy", "sweet", "umami", "bitter", "sour", "smoky", "herby", "rich"];
 
@@ -14,12 +15,21 @@ export default function ProfileTasteEditor({ current }: { current: string[] }) {
   const supabase = createClient();
 
   const save = async (updated: string[]) => {
+    const prev = flavors;
     setFlavors(updated);
-    await supabase
-      .from("profiles")
-      .update({ taste_fingerprint: updated })
-      .eq("user_id", (await supabase.auth.getUser()).data.user!.id);
-    router.refresh();
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not signed in");
+      const { error } = await supabase
+        .from("profiles")
+        .update({ taste_fingerprint: updated })
+        .eq("user_id", user.id);
+      if (error) throw error;
+      router.refresh();
+    } catch {
+      setFlavors(prev);
+      toast.error("Couldn't save. Try again.");
+    }
   };
 
   const remove = (flavor: string) => {

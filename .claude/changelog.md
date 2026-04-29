@@ -3,6 +3,14 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **v1.0-alpha release.** All 12 build phases complete. 40 routes, build clean.
+- **Phase 12 complete:** Polish + bug bash.
+  - Added error handling with toast notifications (sonner) to: shopping list (toggleCheck rollback + addItem), taste editor (save rollback), surprise page (fetch error), notifications (markRead), chat API (rate limit 429, Qdrant fallback to Postgres random).
+  - Chat API: request body validation, embedding error returns friendly 429, Qdrant memory search fails gracefully (empty array), recipe search falls back to random Postgres query when Qdrant is down.
+  - Added micro-interactions in `globals.css`: button press scale(0.97), chip tap scale(0.95), CSS View Transitions API (`@view-transition { navigation: auto }`) for page transitions.
+  - Updated `README.md`: full project description, setup instructions, stack, phases table, not-in-v1 list.
+  - Updated `.claude/context.md`: phase set to "Phase 12 complete · v1 alpha shipped", added known issues / deferred section.
+  - 40 routes total, build clean.
 - **Phase 11 complete:** Offline mode + PWA service worker.
   - Created `public/sw.js` — custom service worker with 4 caching strategies: NetworkFirst (3s timeout) for `/api/*`, CacheFirst for static assets/images/fonts, StaleWhileRevalidate for pages, NetworkOnly for `/api/chat`. Supports `CACHE_RECIPE` and `CACHE_TTS` message events for targeted pre-caching.
   - Created `public/manifest.json` — PWA manifest with name "Nick AI", standalone display, theme_color #1A1A1A, background_color #FAFAF7, SVG placeholder icons (chef hat, dark on white).

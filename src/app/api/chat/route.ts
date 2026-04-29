@@ -19,7 +19,13 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const { messages } = await request.json();
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return new Response("Invalid request", { status: 400 });
+  }
+  const { messages } = body;
   const lastUserMessage = messages[messages.length - 1]?.content || "";
 
   // Fetch profile
@@ -30,21 +36,36 @@ export async function POST(request: Request) {
     .single();
 
   // Embed user message and retrieve memories
-  const userVector = await embed(lastUserMessage);
+  let userVector: number[];
+  try {
+    userVector = await embed(lastUserMessage);
+  } catch {
+    return Response.json({ error: "Nick's catching his breath. Try again in a sec." }, { status: 429 });
+  }
 
-  const memoryResults = await searchMemory(userVector, user.id, 5);
-  const memories = memoryResults.map((r) => r.payload as { content: string; memory_type: string; created_at: string });
+  let memories: { content: string; memory_type: string; created_at: string }[] = [];
+  try {
+    const memoryResults = await searchMemory(userVector, user.id, 5);
+    memories = memoryResults.map((r) => r.payload as { content: string; memory_type: string; created_at: string });
+  } catch {}
 
-  // Get recipe candidates
-  const recipeResults = await searchRecipes(userVector, 5);
-  const candidateIds = recipeResults.map((r) => r.id as string);
-
+  // Get recipe candidates — Qdrant first, fallback to Postgres random
   let recipeCandidates: { id: string; title: string; time_minutes: number; kcal: number; cuisine: string; tags: string[] }[] = [];
-  if (candidateIds.length > 0) {
+  try {
+    const recipeResults = await searchRecipes(userVector, 5);
+    const candidateIds = recipeResults.map((r) => r.id as string);
+    if (candidateIds.length > 0) {
+      const { data } = await supabase
+        .from("recipes")
+        .select("id, title, time_minutes, kcal, cuisine, tags, hero_image_url")
+        .in("id", candidateIds);
+      recipeCandidates = data || [];
+    }
+  } catch {
     const { data } = await supabase
       .from("recipes")
       .select("id, title, time_minutes, kcal, cuisine, tags, hero_image_url")
-      .in("id", candidateIds);
+      .limit(5);
     recipeCandidates = data || [];
   }
 

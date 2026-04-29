@@ -3,31 +3,53 @@
 ## Project
 - **Name:** Nick AI (internal working name)
 - **What:** Mobile-first PWA where Nick DiGiovanni's AI clone guides home cooks through recipes, hands-free, in real time.
-- **Phase:** Phase 0 — Foundations (in progress, blocked on Supabase keys)
+- **Phase:** Phase 12 complete · v1 alpha shipped
 - **Founder:** Aryan Kovelakonda, Bengaluru
 - **Status:** Internal alpha, no public deploys
 
 ## Tech stack
 - Next.js 16 (App Router) + TypeScript + Tailwind v4
-- Supabase (Auth + Postgres + Storage)
-- Qdrant Cloud (vector DB for memory + recipe search)
+- Supabase (Auth + Postgres + Storage + RLS)
+- Qdrant Cloud (vector DB for memory + recipe search, 1536-dim cosine)
 - OpenAI GPT-4o (chat, vision, embeddings, whisper)
 - ElevenLabs (voice clone TTS)
+- Vercel AI SDK v6 (ai@6, @ai-sdk/openai@3, @ai-sdk/react@3)
 - Zustand (client state)
 - Vercel (hosting, private)
 
-## Current blockers
-- `.env` Supabase keys needed: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
-
 ## What's built
-- Next.js scaffold with TypeScript + Tailwind v4
-- Supabase client (browser) + server (cookie-based SSR) utilities
-- Auth middleware protecting all routes except /signin, /signup, /auth/callback
-- Sign in + Sign up pages (email/password)
-- Auth callback route (email confirmation handler)
-- Protected home page ("Hello, user email" + sign out)
-- README.md
+- 40 routes, all building clean
+- Full auth flow (email/password, Supabase)
+- 4-step onboarding (taste, dietary, tools)
+- Home with personalized hero carousel (Qdrant-powered) + browse categories
+- Nick Chat with streaming, 3 tools, voice input (Whisper), memory layer (Qdrant)
+- Fridge Scan (camera → GPT-4o Vision → ingredient editor → chat handoff)
+- Recipe detail with parallax, servings scaler, ingredient checkboxes, swap items
+- Cook mode: step navigation, auto-timers, TTS read-aloud, voice navigation (Web Speech Recognition), wake-lock
+- Past Meals with history, ratings, stats, filters, cook again
+- Surprise Me with dice animation, shake-to-reroll
+- Profile (taste editor, dietary, tools, notifications, privacy, data export, account deletion)
+- Shopping List (category-grouped, checkboxes, clipboard sync)
+- Notifications inbox with daily AI suggestions cron
+- ElevenLabs TTS with browser SpeechSynthesis fallback
+- Offline mode: PWA service worker, pre-caching last 5 saved recipes
+- PWA install prompt (Android + iOS)
+- Error handling with toast notifications across all mutation flows
+- Micro-interactions (button press, chip tap, view transitions)
+
+## Known issues / deferred
+- `ELEVENLABS_VOICE_ID` is placeholder — browser TTS active as fallback until voice clone audio prep is done
+- PWA icons are SVG placeholders — need proper PNG icons designed
+- No real Lighthouse audit run (requires deployed instance)
+- View Transitions API only works in Chrome/Edge — no polyfill for Safari
+- Vegetarian filter in browse page uses rough approximation
+- No screen recording demo yet (requires running on real device)
+- `VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` still placeholder (push notifications not wired)
 
 ## What's next
-- Fill Supabase keys → verify build + dev server
-- Phase 1: Database schema, RLS, 30 recipe seed, Qdrant collections
+- Deploy to Vercel (private)
+- Set ELEVENLABS_VOICE_ID after voice clone audio prep
+- Generate proper PNG PWA icons
+- Run Lighthouse audit on deployed instance
+- Internal testing with 5-20 users
+- Phase 13 (from PRD): Vercel deploy, analytics, monitoring

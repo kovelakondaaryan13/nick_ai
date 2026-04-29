@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { X, Dice5, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 
 interface Recipe {
   id: string;
@@ -28,15 +29,21 @@ export default function SurprisePage() {
     setSpinning(true);
     setFadeIn(false);
 
-    const res = await fetch("/api/surprise");
-    const data = await res.json();
+    try {
+      const res = await fetch("/api/surprise");
+      if (!res.ok) throw new Error();
+      const data = await res.json();
 
-    setTimeout(() => {
-      setRecipe(data.recipe);
-      setTotalRecipes(data.totalRecipes || 0);
+      setTimeout(() => {
+        setRecipe(data.recipe);
+        setTotalRecipes(data.totalRecipes || 0);
+        setSpinning(false);
+        setTimeout(() => setFadeIn(true), 50);
+      }, 700);
+    } catch {
       setSpinning(false);
-      setTimeout(() => setFadeIn(true), 50);
-    }, 700);
+      toast.error("Couldn't load a recipe. Try again.");
+    }
   }, []);
 
   useEffect(() => {

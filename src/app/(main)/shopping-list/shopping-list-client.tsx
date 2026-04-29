@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShoppingCart, Copy, Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 interface Item {
   id: string;
@@ -50,7 +51,11 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
     if (!item) return;
     const updated = !item.checked;
     setItems((prev) => prev.map((i) => (i.id === id ? { ...i, checked: updated } : i)));
-    await supabase.from("shopping_list_items").update({ checked: updated }).eq("id", id);
+    const { error } = await supabase.from("shopping_list_items").update({ checked: updated }).eq("id", id);
+    if (error) {
+      setItems((prev) => prev.map((i) => (i.id === id ? { ...i, checked: !updated } : i)));
+      toast.error("Couldn't update item. Try again.");
+    }
   };
 
   const addItem = async (category: string) => {
@@ -68,6 +73,8 @@ export default function ShoppingListClient({ items: initial }: { items: Item[] }
     if (data) {
       setItems((prev) => [...prev, data]);
       setNewItems((prev) => ({ ...prev, [category]: "" }));
+    } else {
+      toast.error("Couldn't add item. Try again.");
     }
   };
 

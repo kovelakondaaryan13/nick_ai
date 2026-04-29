@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+/* Hide scrollbars on horizontal scrollers */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Micro-interactions */
+button:active:not(:disabled) {
+  transform: scale(0.97);
+  transition: transform 100ms ease;
+}
+
+/* Chip tap feedback */
+[class*="rounded-full"][class*="border"]:active {
+  transform: scale(0.95);
+  transition: transform 100ms ease;
+}
+
+/* View transitions */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+}
+
+/* Timer complete flash */
+@keyframes border-flash {
+  0%, 100% { stroke: #22c55e; }
+  50% { stroke: #86efac; }
+}

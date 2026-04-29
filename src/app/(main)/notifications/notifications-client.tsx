@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Bell, ChefHat, Clock, Info } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 interface Notification {
   id: string;
@@ -43,7 +44,8 @@ export default function NotificationsClient({
       setNotifications((prev) =>
         prev.map((n) => (n.id === notif.id ? { ...n, read: true } : n))
       );
-      await supabase.from("notifications").update({ read: true }).eq("id", notif.id);
+      const { error } = await supabase.from("notifications").update({ read: true }).eq("id", notif.id);
+      if (error) toast.error("Couldn't update notification.");
     }
 
     if (notif.body) {
