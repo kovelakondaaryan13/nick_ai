@@ -3,6 +3,17 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-27
+- **Phase 10 complete:** Voice navigation in cook mode (Web Speech Recognition).
+  - Added Web Speech Recognition to `cook-mode-client.tsx` — feature-detected `SpeechRecognition` / `webkitSpeechRecognition`. Mic toggle button in header (off by default). When on, continuous listening with command matching.
+  - Command vocabulary: "next"/"next step"/"go on"/"continue" → next step, "back"/"previous"/"go back" → previous step, "repeat"/"again"/"say again" → re-trigger TTS, "pause"/"stop timer" → pause timer, "resume"/"start timer" → resume timer, "exit"/"cancel"/"i'm done" → exit confirmation.
+  - Anti-feedback loop: recognition pauses while TTS audio plays (via `isSpeakingRef`), auto-restarts 500ms after TTS ends.
+  - Error handling: auto-restart on error after 2s delay, auto-restart on recognition end after 300ms.
+  - Refactored `circular-timer.tsx` to use `forwardRef` + `useImperativeHandle` — exposes `pause()`, `resume()`, `isPaused()` methods via `CircularTimerHandle` interface for voice command control.
+  - Visual indicators: pulsing red mic icon when listening, ping dot, muted mic state when TTS playing.
+  - Preference persisted to `localStorage.cook_voice_nav_enabled`.
+  - Help tooltip shown on first cook mode entry with speech recognition available: "Try saying 'next' or 'repeat' to navigate hands-free." Auto-dismisses after 5s, stored in `localStorage.cook_voice_nav_tip_seen`.
+  - Graceful degradation: mic toggle hidden entirely on browsers without speech recognition support.
+  - 39 routes total, build clean.
 - **Phase 9 complete:** Nick voice clone infrastructure (ElevenLabs TTS).
   - Created `/api/tts` route — POST accepts `{text}`, streams audio/mpeg from ElevenLabs `eleven_turbo_v2_5` model. Returns 503 with `fallback: "browser"` when ELEVENLABS_VOICE_ID not configured. Tracks character count with console warning near free tier limit.
   - Created `src/hooks/useTTS.ts` — shared hook with `speak()`, `stop()`, `prefetch()`. Tries ElevenLabs first, falls back to browser SpeechSynthesis. Supports pre-fetching next step audio as blob URL for zero-latency playback.

@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { X, Volume2, VolumeX, ChevronLeft, RotateCcw } from "lucide-react";
-import CircularTimer from "./circular-timer";
+import { X, Volume2, VolumeX, ChevronLeft, RotateCcw, Mic, MicOff } from "lucide-react";
+import CircularTimer, { type CircularTimerHandle } from "./circular-timer";
 import { useTTS } from "@/hooks/useTTS";
 
 interface Step {
@@ -20,6 +20,22 @@ interface Recipe {
   hero_image_url: string;
 }
 
+type SpeechRecognitionType = typeof window extends { SpeechRecognition: infer T } ? T : any;
+
+function getSpeechRecognition(): (new () => any) | null {
+  if (typeof window === "undefined") return null;
+  return (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition || null;
+}
+
+const COMMANDS: Record<string, string> = {
+  next: "next", "next step": "next", "go on": "next", continue: "next",
+  back: "back", previous: "back", "go back": "back",
+  repeat: "repeat", again: "repeat", "say again": "repeat",
+  pause: "pause", "stop timer": "pause",
+  resume: "resume", "start timer": "resume",
+  exit: "exit", cancel: "exit", "i'm done": "exit", "im done": "exit",
+};
+
 export default function CookModeClient({ recipe }: { recipe: Recipe }) {
   const router = useRouter();
   const [started, setStarted] = useState(false);
@@ -30,10 +46,24 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
     }
     return true;
   });
+  const [voiceNavOn, setVoiceNavOn] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("cook_voice_nav_enabled") === "true";
+    }
+    return false;
+  });
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [showVoiceNavTip, setShowVoiceNavTip] = useState(false);
   const wakeLockRef = useRef<WakeLockSentinel | null>(null);
+  const recognitionRef = useRef<any>(null);
+  const restartTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timerRef = useRef<CircularTimerHandle>(null);
   const tts = useTTS();
+  const isSpeakingRef = useRef(false);
+
+  const hasSpeechRecognition = typeof window !== "undefined" && getSpeechRecognition() !== null;
 
   const step = recipe.steps[currentStep];
   const totalSteps = recipe.steps.length;
@@ -56,6 +86,135 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
     } catch {}
   }, []);
 
+  // Stable refs for voice nav callbacks
+  const goNextRef = useRef<() => void>(() => {});
+  const goBackRef = useRef<() => void>(() => {});
+  const repeatStepRef = useRef<() => void>(() => {});
+
+  useEffect(() => {
+    goNextRef.current = () => {
+      tts.stop();
+      if (currentStep === totalSteps - 1) {
+        router.push(`/cook/${recipe.id}/done`);
+      } else {
+        setCurrentStep((s) => s + 1);
+      }
+    };
+    goBackRef.current = () => {
+      tts.stop();
+      if (currentStep > 0) setCurrentStep((s) => s - 1);
+    };
+    repeatStepRef.current = () => {
+      if (voiceOn) {
+        tts.speak(
+          stepText(currentStep),
+          () => { setIsSpeaking(true); isSpeakingRef.current = true; },
+          () => { setIsSpeaking(false); isSpeakingRef.current = false; }
+        );
+      }
+    };
+  }, [currentStep, totalSteps, recipe.id, voiceOn, stepText, tts, router]);
+
+  const handleCommand = useCallback((cmd: string) => {
+    switch (cmd) {
+      case "next": goNextRef.current(); break;
+      case "back": goBackRef.current(); break;
+      case "repeat": repeatStepRef.current(); break;
+      case "pause": timerRef.current?.pause(); break;
+      case "resume": timerRef.current?.resume(); break;
+      case "exit": setShowExitConfirm(true); break;
+    }
+  }, []);
+
+  const startRecognition = useCallback(() => {
+    const SpeechRecognitionClass = getSpeechRecognition();
+    if (!SpeechRecognitionClass) return;
+
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch {}
+    }
+
+    const recognition = new SpeechRecognitionClass();
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.lang = "en-US";
+
+    recognition.onresult = (event: any) => {
+      const last = event.results[event.results.length - 1];
+      if (!last.isFinal) return;
+      const transcript = last[0].transcript.toLowerCase().trim();
+
+      for (const [phrase, action] of Object.entries(COMMANDS)) {
+        if (transcript.includes(phrase)) {
+          handleCommand(action);
+          break;
+        }
+      }
+    };
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => {
+      setIsListening(false);
+      // Auto-restart if voice nav is still on and not speaking
+      if (!isSpeakingRef.current) {
+        restartTimeoutRef.current = setTimeout(() => {
+          if (recognitionRef.current === recognition) {
+            try { recognition.start(); } catch {}
+          }
+        }, 300);
+      }
+    };
+
+    recognition.onerror = (event: any) => {
+      if (event.error === "aborted") return;
+      setIsListening(false);
+      restartTimeoutRef.current = setTimeout(() => {
+        if (recognitionRef.current === recognition) {
+          try { recognition.start(); } catch {}
+        }
+      }, 2000);
+    };
+
+    recognitionRef.current = recognition;
+    try { recognition.start(); } catch {}
+  }, [handleCommand]);
+
+  const stopRecognition = useCallback(() => {
+    if (restartTimeoutRef.current) {
+      clearTimeout(restartTimeoutRef.current);
+      restartTimeoutRef.current = null;
+    }
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch {}
+      recognitionRef.current = null;
+    }
+    setIsListening(false);
+  }, []);
+
+  // Start/stop recognition when voiceNavOn changes
+  useEffect(() => {
+    if (started && voiceNavOn) {
+      startRecognition();
+    } else {
+      stopRecognition();
+    }
+    return () => stopRecognition();
+  }, [started, voiceNavOn, startRecognition, stopRecognition]);
+
+  // Anti-feedback: pause recognition while TTS plays
+  useEffect(() => {
+    if (!voiceNavOn || !recognitionRef.current) return;
+    if (isSpeaking) {
+      try { recognitionRef.current.stop(); } catch {}
+    } else if (started) {
+      restartTimeoutRef.current = setTimeout(() => {
+        if (recognitionRef.current) {
+          try { recognitionRef.current.start(); } catch {}
+        }
+      }, 500);
+    }
+  }, [isSpeaking, voiceNavOn, started]);
+
   useEffect(() => {
     if (started) requestWakeLock();
 
@@ -76,11 +235,10 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
     if (started && voiceOn) {
       tts.speak(
         stepText(currentStep),
-        () => setIsSpeaking(true),
-        () => setIsSpeaking(false)
+        () => { setIsSpeaking(true); isSpeakingRef.current = true; },
+        () => { setIsSpeaking(false); isSpeakingRef.current = false; }
       );
 
-      // Prefetch next step audio
       if (currentStep < totalSteps - 1) {
         tts.prefetch(stepText(currentStep + 1));
       }
@@ -91,6 +249,23 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
   useEffect(() => {
     localStorage.setItem("cook_voice_enabled", voiceOn.toString());
   }, [voiceOn]);
+
+  useEffect(() => {
+    localStorage.setItem("cook_voice_nav_enabled", voiceNavOn.toString());
+  }, [voiceNavOn]);
+
+  // Show tooltip on first cook mode entry with voice nav available
+  useEffect(() => {
+    if (started && hasSpeechRecognition) {
+      const seen = localStorage.getItem("cook_voice_nav_tip_seen");
+      if (!seen) {
+        setShowVoiceNavTip(true);
+        localStorage.setItem("cook_voice_nav_tip_seen", "true");
+        const timer = setTimeout(() => setShowVoiceNavTip(false), 5000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [started, hasSpeechRecognition]);
 
   function playChime() {
     try {
@@ -126,15 +301,14 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
     if (voiceOn) {
       tts.speak(
         stepText(currentStep),
-        () => setIsSpeaking(true),
-        () => setIsSpeaking(false)
+        () => { setIsSpeaking(true); isSpeakingRef.current = true; },
+        () => { setIsSpeaking(false); isSpeakingRef.current = false; }
       );
     }
   }
 
   function handleStart() {
     setStarted(true);
-    // iOS audio unlock — play a silent audio context on user gesture
     try {
       const ctx = new AudioContext();
       const buf = ctx.createBuffer(1, 1, 22050);
@@ -174,8 +348,31 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
           <button onClick={() => { setVoiceOn(!voiceOn); if (voiceOn) tts.stop(); }}>
             {voiceOn ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5 text-[#A0A0A0]" />}
           </button>
+          {hasSpeechRecognition && (
+            <button
+              onClick={() => setVoiceNavOn(!voiceNavOn)}
+              className="relative"
+            >
+              {voiceNavOn ? (
+                <Mic className={`h-5 w-5 ${isListening ? "text-red-500 animate-pulse" : isSpeaking ? "text-[#A0A0A0]" : ""}`} />
+              ) : (
+                <MicOff className="h-5 w-5 text-[#A0A0A0]" />
+              )}
+              {isListening && (
+                <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-red-500 animate-ping" />
+              )}
+            </button>
+          )}
         </div>
       </div>
+
+      {/* Voice nav tooltip */}
+      {showVoiceNavTip && (
+        <div className="mx-4 mt-2 rounded-lg bg-[#1A1A1A] px-4 py-2.5 text-center text-xs text-white">
+          Try saying &quot;next&quot; or &quot;repeat&quot; to navigate hands-free
+          <button onClick={() => setShowVoiceNavTip(false)} className="ml-2 text-white/60">✕</button>
+        </div>
+      )}
 
       {/* Progress bar */}
       <div className="mt-4 flex gap-1 px-4">
@@ -209,6 +406,7 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
         {timerSeconds && timerSeconds > 0 && (
           <div className="mt-6 flex justify-center">
             <CircularTimer
+              ref={timerRef}
               key={`${currentStep}-${timerSeconds}`}
               durationSec={timerSeconds}
               onComplete={playChime}
@@ -241,7 +439,7 @@ export default function CookModeClient({ recipe }: { recipe: Recipe }) {
                 Stay
               </button>
               <button
-                onClick={() => { tts.stop(); router.push(`/recipes/${recipe.id}`); }}
+                onClick={() => { tts.stop(); stopRecognition(); router.push(`/recipes/${recipe.id}`); }}
                 className="flex-1 rounded-lg bg-[#1A1A1A] py-3 text-sm font-semibold text-white"
               >
                 Exit
