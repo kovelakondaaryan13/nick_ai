@@ -3,6 +3,7 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **Updated ELEVENLABS_VOICE_ID** to custom Nick clone voice `7FZFrYtZRrKLHTp9VJka` (was Rachel default `21m00Tcm4TlvDq8ikWAM`).
 - **3 critical runtime fixes:**
   1. `/api/chat` returning 400 — Zod schema expected `content: string` but AI SDK v6 `useChat` sends `content` as array of parts. Replaced strict Zod validation with flexible parsing that handles both string and array content formats.
   2. `/api/scan` fridge scan not returning structured ingredients — added `response_format: { type: "json_object" }` to GPT-4o call and moved ingredient detection instructions to system prompt. Guarantees clean JSON output instead of markdown-wrapped text.
