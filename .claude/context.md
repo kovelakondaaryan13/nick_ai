@@ -11,7 +11,8 @@
 - Next.js 16 (App Router) + TypeScript + Tailwind v4
 - Supabase (Auth + Postgres + Storage + RLS)
 - Qdrant Cloud (vector DB for memory + recipe search, 1536-dim cosine)
-- OpenAI GPT-4o (chat, vision, embeddings, whisper)
+- OpenRouter + google/gemma-3-27b-it (chat — free, no limits)
+- OpenAI GPT-4o (vision scan only), Whisper (STT), text-embedding-3-small (embeddings)
 - ElevenLabs (voice clone TTS)
 - Vercel AI SDK v6 (ai@6, @ai-sdk/openai@3, @ai-sdk/react@3)
 - Zustand (client state)

@@ -3,6 +3,13 @@
 Dated log of every change. Newest at top. Tiniest changes included.
 
 ## 2026-04-29
+- **Switched chat to OpenRouter (Gemma 3 27B):**
+  - `/api/chat/route.ts` — replaced `@ai-sdk/openai` GPT-4o with OpenRouter `google/gemma-3-27b-it` (free, no limits) via `createOpenAI` with custom baseURL.
+  - Added `OPENROUTER_API_KEY` to `.env` and `.env.example`.
+  - Kept `OPENAI_API_KEY` for: fridge scan vision (GPT-4o), Whisper STT, embeddings (`text-embedding-3-small`).
+  - `src/lib/openai.ts` unchanged — still uses OpenAI for embeddings.
+  - `/api/scan`, `/api/transcribe` unchanged — still use OpenAI directly.
+  - 40 routes, build clean.
 - **Dark theme brand identity overhaul** — full visual redesign across every page:
   - Colour system: bg-primary #0F0F0F, bg-card #1A1A1A, bg-elevated #242424, text-primary #F5F0E8, text-secondary #9A9A8A, accent #FF6B35, success #4CAF50, border #2A2A2A.
   - Typography: Installed Playfair Display (via next/font/google, CSS variable `--font-playfair`) for headings, Inter for body.

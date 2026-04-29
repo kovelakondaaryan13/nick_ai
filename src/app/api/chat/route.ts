@@ -2,7 +2,12 @@ import { createClient } from "@/lib/supabase/server";
 import { embed } from "@/lib/openai";
 import { searchMemory, searchRecipes, upsertMemory } from "@/lib/qdrant";
 import { buildSystemPrompt } from "@/lib/nick-prompt";
-import { openai as openaiProvider } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
+
+const openrouter = createOpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENROUTER_API_KEY,
+});
 import { streamText, tool } from "ai";
 import { z } from "zod";
 import { randomUUID } from "crypto";
@@ -103,7 +108,7 @@ export async function POST(request: Request) {
   });
 
   const result = streamText({
-    model: openaiProvider("gpt-4o"),
+    model: openrouter("google/gemma-3-27b-it"),
     system: systemPrompt,
     messages,
     tools: {
